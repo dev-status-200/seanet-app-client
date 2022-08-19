@@ -56,7 +56,7 @@ const Create = ({clientData}) => {
             {
             clientData.map((client, index)=>{
                 return(
-                <option value={client.id}>{client.name}</option>
+                <option value={client.id} key={index}>{client.name}</option>
                 )
             })}
         </Form.Select>
