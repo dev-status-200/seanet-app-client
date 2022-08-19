@@ -1,3 +1,4 @@
+
 html,
 body {
   padding: 0;
@@ -6,21 +7,38 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+#components-layout-demo-custom-trigger .trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
 }
 
-* {
-  box-sizing: border-box;
+#components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+#components-layout-demo-custom-trigger .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+#__next > section > aside > div{
+  height: 100vh;
+  padding-top: 0px;
+}
+
+.headr-icon{
+  font-size: 30px;
+  margin-left: 25px;
+}
+
+#__next > section > section > header > span > svg{
+  font-size: 30px;
 }

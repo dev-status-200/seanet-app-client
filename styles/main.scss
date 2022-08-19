@@ -1,0 +1,43 @@
+@import 'layoutStyles.scss';
+@import 'lightTheme.scss';
+@import 'darkTheme.scss';
+
+
+// Font Sizings 
+.f-5{ font-size: 5px!important; }
+.f-10{ font-size: 10px!important; }
+.f-15{ font-size: 15px!important; }
+.f-20{ font-size: 20px!important; }
+.f-25{ font-size: 25px!important; }
+.f-30{ font-size: 30px!important; }
+.f-35{ font-size: 35px!important; }
+
+.table-sm-1{
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 25px;
+    
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  

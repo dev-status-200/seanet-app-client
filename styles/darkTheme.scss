@@ -1,0 +1,36 @@
+.darkTheme{
+    transition-duration: 300ms;
+    color: white;
+    .f{
+        color: white!important;
+    }
+    .box{
+        background-color: #162A46;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
+        -moz-box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
+    }
+    .custom-btn{
+        background-color: #162A46;
+        border: 1px solid rgb(6, 150, 172);
+        border-radius: 25px;
+        padding:8px 30px 8px 30px;
+        font-weight: 500;
+    }
+    .custom-btn:hover{
+        transition-duration: 300ms;
+        background-color: rgb(6, 150, 172);
+        color: white;
+    }
+    .tableFixHead thead th {
+        transition-duration: 300ms;
+        position: sticky;
+        top: 0;
+        background-color:#0f203a;
+        border: none;
+        z-index: 1;
+        color: white;
+    }   
+}
