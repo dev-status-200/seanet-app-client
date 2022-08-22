@@ -105,8 +105,9 @@ const menu = (value) => (
                 <td>
                   <Dropdown overlay={menu(x)}>
                     <Space style={{cursor:'pointer',
-                      color:x.status==""?'silver':(x.status=="GD Submitted"||x.status=="Consignment Moved to Port")?'black':
-                      (x.status=="Gate Pass Issued"||x.status=="Pass In"||x.status=="Mark For Assessment"||x.status=="Mark For Examination"
+                      color:x.status==""?'silver':(x.status=="GD Submitted"&&theme=='dark')?'white':
+                      (x.status=="GD Submitted"&&theme=='light')?'black':
+                      (x.status=="Consignment Moved to Port"||x.status=="Gate Pass Issued"||x.status=="Pass In"||x.status=="Mark For Assessment"||x.status=="Mark For Examination"
                       ||x.status=="Mark For ANF"||x.status=="Mark For DEC")?'#0066cc':'green'
                     }}>
                       {x.status==""?'Pending GD':x.status}
