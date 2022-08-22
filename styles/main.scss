@@ -17,27 +17,24 @@
     overflow-y: auto;
 }
 
-
-
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 8px;
-  }
+  width: 5px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
   
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-    border-radius: 25px;
-    
-  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 25px;
   
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-  
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
