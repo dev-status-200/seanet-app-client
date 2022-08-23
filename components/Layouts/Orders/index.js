@@ -1,19 +1,23 @@
 import React, {useState, useEffect} from 'react'
+import { useSelector } from 'react-redux';
+
 import { Row, Col, Table } from 'react-bootstrap'
 import { Modal, Dropdown, Menu, Space } from 'antd';
 
-import { useSelector } from 'react-redux';
-
 import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons';
-
 import Create from './Create';
-
-
+import DropdownOptions from './DropdownOptions';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import axios from 'axios'
+import Edit from './Edit';
 
 const Orders = ({clientData, orderData}) => {
 
   const [ visible, setVisible ] = useState(false);
+
+  const [ edit, setEdit ] = useState(false);
+  const [ editValues, setEditValues ] = useState({});
+  
   const theme = useSelector((state) => state.theme.value);
 
   const [orderList, setOrderList] = useState([]);
@@ -27,7 +31,7 @@ const Orders = ({clientData, orderData}) => {
   //     console.log('Hello')
   //     axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_ORDER_GET)
   //     .then((x)=>setOrderList(x.data))
-  //   }, 1000 * 60 * 5)
+  //   }, 1000 * 10)
   //   return () => clearInterval(intervalId)
   // }, [])
   
@@ -37,34 +41,15 @@ const Orders = ({clientData, orderData}) => {
     setOrderList(tempState);
   }
 
-const menu = (value) => (
-  <Menu
-    items={[
-      {
-        key: '1',
-        label: (<span onClick={()=>console.log(value)}>GD Submitted</span>),
-        disabled:value.status==''?false:true
-      },
-      {
-        key: '2',
-        label: (<span onClick={()=>console.log(value)}>Consignment Move To Port</span>),
-        disabled:value.status=='GD Submitted'?false:true
-      },
-      {
-        key: '3',
-        label: ("Status reserved For Port Users (disabled)"),
-        icon: <StopOutlined />,
-        disabled: true,
-      },
-      {
-        key: '4',
-        //danger: true,
-        label: 'On Vessel',
-        disabled:value.status=='Loading Allowed'?false:true
-      },
-    ]}
-  />
-);
+  const updateOrder = (x) => {
+    console.log(x)
+    let tempState = [...orderList];
+    let i = tempState.findIndex((y=>x.id==y.id));
+    tempState[i] = x;
+    setOrderList(tempState);
+  }
+
+  const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateOrder={updateOrder} /> );
 
   return (
     <div>
@@ -120,7 +105,11 @@ const menu = (value) => (
                     <InfoCircleOutlined className='modify-info'/>
                   </span> <span className='mx-1'> | </span>
                   <span>
-                    <EditOutlined className='modify-edit' />
+                    <EditOutlined className='modify-edit' onClick={()=>{
+                      setEditValues(x);
+                      setEdit(true);
+                      setVisible(true);
+                    }} />
                   </span> <span className='mx-1'> | </span>
                   <span>
                     <CloseCircleOutlined className='modify-red'/>
@@ -136,14 +125,15 @@ const menu = (value) => (
       </div>
       <Modal 
         visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
-        width={800}
+        onOk={() => {setVisible(false); setEdit(false); setEditValues({});}}
+        onCancel={() => {setVisible(false); setEdit(false); setEditValues({});}}
+        width={edit?600:800}
         footer={false}
         bodyStyle={{backgroundColor:theme=='light'?'white':'#162A46', borderRadius:1}}
         style={{color:theme=='light'?'black':'white'}}
       >
-        <Create clientData={clientData} appendClient={appendClient} setVisible={setVisible} />
+        {!edit&&<Create clientData={clientData} appendClient={appendClient} setVisible={setVisible} />}
+        {edit&&<Edit editValues={editValues} setVisible={setVisible} updateOrder={updateOrder} />}
       </Modal>
     </div>
   )

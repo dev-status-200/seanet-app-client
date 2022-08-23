@@ -38,3 +38,50 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.custom-btn-dark{
+  background-color: #162A46;
+  border: 1px solid rgb(6, 150, 172);
+  border-radius: 25px;
+  padding:8px 30px 8px 30px;
+  font-weight: 500;
+}
+.custom-btn-dark:hover{
+  transition-duration: 300ms;
+  background-color: rgb(6, 150, 172);
+  color: white;
+}
+
+.custom-btn-light{
+  background-color: white;
+  border: 1px solid rgb(6, 150, 172);
+  border-radius: 25px;
+  padding:8px 30px 8px 30px;
+  font-weight: 500;
+}
+.custom-btn-light:hover{
+  transition-duration: 300ms;
+  background-color: rgb(6, 150, 172);
+  color: white;
+}
+
+.cancel-btn{
+  background-color: rgba(255, 255, 255, 0);
+  border: 1px solid rgb(203, 38, 9);
+  color: rgb(203, 38, 9);
+  border-radius: 25px;
+  padding:8px 30px 8px 30px;
+  font-weight: 500;
+}
+.cancel-btn:hover{
+  transition-duration: 300ms;
+  background-color: rgb(203, 38, 9);
+  color: white;
+}
+.theme-color{
+  color: rgb(6, 150, 172)!important;
+}
+
+.modify-edit:hover{
+  color: rgb(6, 150, 172)!important;
+}

@@ -14,7 +14,7 @@ import { light, dark } from '/redux/features/themeSlice';
   const MainLayout = ({children}) => {
     const router = useRouter();
 
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
 
     const theme = useSelector((state) => state.theme.value)
     const dispatch = useDispatch();

@@ -13,11 +13,11 @@
         -moz-box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
     }
     .custom-btn{
-        background-color: #162A46;
-        border: 1px solid rgb(6, 150, 172);
-        border-radius: 25px;
-        padding:8px 30px 8px 30px;
-        font-weight: 500;
+        background-color: #162A46!important;
+        border: 1px solid rgb(6, 150, 172)!important;
+        border-radius: 25px!important;
+        padding:8px 30px 8px 30px!important;
+        font-weight: 500!important;
     }
     .custom-btn:hover{
         transition-duration: 300ms;
@@ -32,5 +32,15 @@
         border: none;
         z-index: 1;
         color: white;
-    }   
+    }
+    .bg{
+        background-color: #0f203a!important;
+    }
+    .dropdown-theme:hover{
+        color: red;   
+    }
+    #exampleForm\.ControlInput1{
+        background-color: #0f203a!important;
+        color: white!important;
+      }
 }
