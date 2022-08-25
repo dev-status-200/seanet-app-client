@@ -1,15 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
 
-import { Row, Col, Table } from 'react-bootstrap'
+import { Row, Col, Table } from 'react-bootstrap';
 import { Modal, Dropdown, Menu, Space } from 'antd';
 
 import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import Create from './Create';
 import DropdownOptions from './DropdownOptions';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
-import axios from 'axios'
+import axios from 'axios';
 import Edit from './Edit';
+
+import Link from 'next/link';
 
 const Orders = ({clientData, orderData}) => {
 
@@ -17,9 +19,8 @@ const Orders = ({clientData, orderData}) => {
 
   const [ edit, setEdit ] = useState(false);
   const [ editValues, setEditValues ] = useState({});
-  
-  const theme = useSelector((state) => state.theme.value);
 
+  const theme = useSelector((state) => state.theme.value);
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
@@ -50,6 +51,19 @@ const Orders = ({clientData, orderData}) => {
   }
 
   const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateOrder={updateOrder} /> );
+  const link = (value) => ( 
+    <Menu 
+      items={[
+        { key:'1',
+          label: (
+          <Link href={`/tracking?id=${value.ClientId}`} rel="noopener noreferrer">
+            <a target="_blank">Customer Link</a>
+          </Link>
+          ),disabled:value.status==''?true:false
+        },
+      ]}
+    />
+  );
 
   return (
     <div>
@@ -102,7 +116,11 @@ const Orders = ({clientData, orderData}) => {
                 </td>
                 <td>
                   <span>
-                    <InfoCircleOutlined className='modify-info'/>
+                  <Dropdown  overlay={link(x)} placement="bottom" arrow={{ pointAtCenter: true }}>
+                    <Space style={{cursor:'pointer'}}>
+                      <InfoCircleOutlined className='modify-info'/>
+                    </Space>
+                  </Dropdown>
                   </span> <span className='mx-1'> | </span>
                   <span>
                     <EditOutlined className='modify-edit' onClick={()=>{

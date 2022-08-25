@@ -1,0 +1,56 @@
+.orderTrackingStyles{
+    .top-h{
+        color: grey;
+        font-weight: lighter;
+    }
+    .line{
+        background-color: silver;
+        height: 2px;
+        width: 200px;
+        margin: auto;
+    }
+    .status-box{
+        border: 1px solid rgba(0, 0, 0, 0.311);
+        min-height: 30px;
+        min-width: 100px;
+        background-color: rgba(192, 192, 192, 0.192);
+        border-radius: 5px;
+        margin-left: 150px;
+        margin-right: 150px;
+        padding: 10px;
+    }
+    .timeline-green{
+        background-color: rgb(21, 101, 18);
+        height: 6px;
+        margin: 0%;
+        padding: 0%;
+    }
+    .timeline-grey{
+        background-color: silver;
+        height: 6px;
+        margin: 0%;
+        padding: 0%;
+    }
+    .status-icon{
+        font-size: 25px;
+        background-color: rgb(21, 101, 18);
+        border-radius: 50%;
+        color: white;
+        position: relative;
+        bottom: 15px;
+    }
+    .status-text{
+        line-height: 15px;
+        margin: 0px;
+        padding: 0px;
+        min-width: 100%;
+        max-width: 100%;
+        font-weight: 600;
+    }
+    .green{
+        color: rgb(21, 101, 18);
+    }
+    .grey{
+        color: silver;
+    }
+}
