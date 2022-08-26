@@ -3,8 +3,11 @@ import { Layout, Menu } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { CgDarkMode } from "react-icons/cg";
+import { BiBarcodeReader } from "react-icons/bi";
 import Router,{ useRouter } from 'next/router';
 import Link from 'next/link';
+
+import Image from 'next/image'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { light, dark } from '/redux/features/themeSlice';
@@ -67,8 +70,8 @@ import { light, dark } from '/redux/features/themeSlice';
         <Layout className="site-layout" style={{backgroundColor:'grey'}}>
           <Header className={'dark-bg'}
           style={{ padding: 0}}>
-            
-            <span className={'darkTheme'} style={{float:'right', marginRight:10, cursor:'pointer'}}>
+            <span className='darkTheme f-25 mx-3'>Welcome</span>
+            <span className={'darkTheme mx-3'} style={{float:'right', marginRight:10, cursor:'pointer'}}>
               <CgDarkMode onClick={()=>{
                 if(theme=='dark'){
                   dispatch(light()); Cookies.set('theme','light')
@@ -76,6 +79,11 @@ import { light, dark } from '/redux/features/themeSlice';
                   dispatch(dark()); Cookies.set('theme','dark')
                 }
               }}/>
+            </span>
+            <span className='darkTheme' style={{float:'right', marginRight:10, cursor:'pointer'}}>
+              <a target={'_blank'} href='https://cargo-linkers.vercel.app/' style={{textDecoration:'none', color:'white'}}>
+                <BiBarcodeReader style={{marginBottom:3, marginRight:3, fontSize:30}} />Bill Tracking 
+              </a>
             </span>
           </Header>
           <Content className={theme==='light'?'light-bg':'dark-bg'}
