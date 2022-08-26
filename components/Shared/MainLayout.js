@@ -81,7 +81,10 @@ import { light, dark } from '/redux/features/themeSlice';
               }}/>
             </span>
             <span className='darkTheme' style={{float:'right', marginRight:10, cursor:'pointer'}}>
-              <a target={'_blank'} href='https://cargo-linkers.vercel.app/' style={{textDecoration:'none', color:'white'}}>
+            {/* <Link href={`/tracking?id=${value.ClientId}`} rel="noopener noreferrer">
+            <a target="_blank">Customer Link</a>
+          </Link> */}
+              <a rel="noreferrer" target={'_blank'} href='https://cargo-linkers.vercel.app/' style={{textDecoration:'none', color:'white'}}>
                 <BiBarcodeReader style={{marginBottom:3, marginRight:3, fontSize:30}} />Bill Tracking 
               </a>
             </span>
