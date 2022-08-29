@@ -46,7 +46,10 @@ const DropdownOptions = ({value, theme, updateOrder}) => {
           case '2':
             setStatus('Consignment Moved to Port');
             break;
-            case '4':
+          case '4':
+              setStatus('Loading Allowed');
+            break;
+          case '5':
               setStatus('On Vessel');
             break;
         }
@@ -78,6 +81,12 @@ const DropdownOptions = ({value, theme, updateOrder}) => {
           },
           {
             key: '4',
+            //danger: true,
+            label: (<span>Loading Allowed</span>),
+            disabled:value.status=='Mark For Dec'?false:true
+          },
+          {
+            key: '5',
             //danger: true,
             label: (<span>On Vessel</span>),
             disabled:value.status=='Loading Allowed'?false:true
