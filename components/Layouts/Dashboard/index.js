@@ -231,7 +231,7 @@ const Dashboard = ({orderData}) => {
     };
   return (
     <div className={theme=='light'?'lightTheme':'darkTheme'}>
-    <Row className='box m-3' style={{maxHeight:600, overflowX:'auto'}}>
+    <Row className='box m-3' style={{maxHeight:650, overflowX:'auto'}}>
         <Col><h3 className='f my-2'>Dashboard</h3></Col>
         <div className='px-2'>
             <hr className='my-2' />
@@ -243,6 +243,7 @@ const Dashboard = ({orderData}) => {
         <Col md={12}>
             <HighchartsReact highcharts={Highcharts}  options={options} />
         </Col>
+        <hr className='my-3' />
         <Col md={12} className='my-3'>
             <h6 className='f'>Orders Blocked !</h6>
             <h1 className='f'>11</h1>

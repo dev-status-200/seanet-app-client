@@ -69,7 +69,7 @@ const Orders = ({clientData, orderData}) => {
     <div>
       <div className={theme=='light'?'lightTheme':'darkTheme'}>
         <Row className='box m-3'>
-          <Col><h3 className='f my-2'>Orders</h3></Col>
+          <Col><h3 className='f my-2'>Shipments</h3></Col>
           <Col style={{textAlign:'right'}}>
             <button className='custom-btn' onClick={()=>setVisible(true)}>Create New</button>
           </Col>

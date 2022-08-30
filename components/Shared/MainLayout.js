@@ -26,7 +26,7 @@ import { light, dark } from '/redux/features/themeSlice';
       let value = '1';
         if(router.pathname === '/dashboard'){ value='1' }
         else if(router.pathname === '/clients'){ value='2' }
-        else if(router.pathname === '/orders'){ value='3' }
+        else if(router.pathname === '/shipments'){ value='3' }
         else { value='null' }
       return value
     }
@@ -62,7 +62,7 @@ import { light, dark } from '/redux/features/themeSlice';
               <Link href="/clients"><a style={{textDecoration:'none'}}>Clients</a></Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<SolutionOutlined />}>
-              <Link href="/orders"><a style={{textDecoration:'none'}}>Orders</a></Link>
+              <Link href="/shipments"><a style={{textDecoration:'none'}}>Shipments</a></Link>
             </Menu.Item>
 
           </Menu>
@@ -70,7 +70,7 @@ import { light, dark } from '/redux/features/themeSlice';
         <Layout className="site-layout" style={{backgroundColor:'grey'}}>
           <Header className={'dark-bg'}
           style={{ padding: 0}}>
-            <span className='darkTheme f-25 mx-3'>Welcome</span>
+            <span className='darkTheme f-25 mx-3'><img src="/assets/logotwo.png" height={40} style={{marginBottom:7}} alt="logo" /></span>
             <span className={'darkTheme mx-3'} style={{float:'right', marginRight:10, cursor:'pointer'}}>
               <CgDarkMode onClick={()=>{
                 if(theme=='dark'){

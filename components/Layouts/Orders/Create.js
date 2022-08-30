@@ -72,7 +72,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
     <Form className='' onSubmit={handleSubmit}>
     <Row>
     <Col md={8}>
-    <div className='f-30'>Order</div>
+    <div className='f-30'>Shipment</div>
     <hr/>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Client</Form.Label>
