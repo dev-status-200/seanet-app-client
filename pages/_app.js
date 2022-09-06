@@ -9,7 +9,9 @@ import Loader from '../components/Shared/Loader'
 import Router, { useRouter  } from 'next/router';
 
 import { store } from '../redux/store';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function MyApp({ Component, pageProps:{ session, ...pageProps }, }) {
 
