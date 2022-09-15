@@ -43,4 +43,18 @@
         background-color: #0f203a!important;
         color: white!important;
       }
+
+    .user-profile-list{
+        cursor: pointer;
+        min-width: 190px;
+        max-width: 190px;
+        border: 1px solid grey;
+        //        padding: 20px;
+        margin: 10px;
+        border-radius: 15px;
+    }
+    .user-profile-list:hover{
+        transition-duration: 300ms;
+        background-color: rgba(6, 150, 172, 0.542);
+    }
 }

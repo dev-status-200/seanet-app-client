@@ -17,42 +17,37 @@ function MapComp() {
       zoom: 15
     })
     map.on('load', async () => {
-			const response = await fetch(
-				'https://docs.mapbox.com/mapbox-gl-js/assets/hike.geojson'
-			);
-			const data = await response.json();
-			const coordinates = data.features[0].geometry.coordinates;
+		const response = await fetch('https://docs.mapbox.com/mapbox-gl-js/assets/hike.geojson');
+		const data = await response.json();
+		const coordinates = data.features[0].geometry.coordinates;
 
-			data.features[0].geometry.coordinates = [coordinates[0]];
+		data.features[0].geometry.coordinates = [coordinates[0]];
 
-			map.addSource('trace', { type: 'geojson', data: data });
-			map.addLayer({
-				'id': 'trace',
-				'type': 'line',
-				'source': 'trace',
-				'paint': {
-					'line-color': 'yellow',
-					'line-opacity': 0.75,
-					'line-width': 5
-				}
-			});
-
-			// setup the viewport
-
-
-			let i = 0;
-			const timer = setInterval(() => {
-				if (i < coordinates.length) {
-					data.features[0].geometry.coordinates.push(coordinates[i]);
-					map.getSource('trace').setData(data);
-					map.panTo(coordinates[i]);
-					i++;
-				} else {
-					window.clearInterval(timer);
-				}
-			}, 10);
+		map.addSource('trace', { type: 'geojson', data: data });
+		map.addLayer({
+			'id': 'trace',
+			'type': 'line',
+			'source': 'trace',
+			'paint': {
+				'line-color': 'yellow',
+				'line-opacity': 0.75,
+				'line-width': 5
+			}
+		});
+		// setup the viewport
+		let i = 0;
+		const timer = setInterval(() => {
+			if (i < coordinates.length) {
+				data.features[0].geometry.coordinates.push(coordinates[i]);
+				map.getSource('trace').setData(data);
+				map.panTo(coordinates[i]);
+				i++;
+			} else {
+				window.clearInterval(timer);
+			}
+		}, 10);
 		}
-		);
+	);
   })
   
 

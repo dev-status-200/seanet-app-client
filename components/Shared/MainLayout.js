@@ -1,4 +1,4 @@
-import { TeamOutlined, AlignLeftOutlined, ProfileOutlined, SolutionOutlined, ForkOutlined } from '@ant-design/icons';
+import { TeamOutlined, AlignLeftOutlined, UserOutlined, ProfileOutlined, SolutionOutlined, ForkOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -28,6 +28,7 @@ import { light, dark } from '/redux/features/themeSlice';
         else if(router.pathname === '/clients'){ value='2' }
         else if(router.pathname === '/shipments'){ value='3' }
         else if(router.pathname === '/maps'){ value='4' }
+        else if(router.pathname === '/users'){ value='5' }
         else { value='null' }
       return value
     }
@@ -67,6 +68,9 @@ import { light, dark } from '/redux/features/themeSlice';
             </Menu.Item>
             <Menu.Item key="4" icon={<ForkOutlined />}>
               <Link href="/maps"><a style={{textDecoration:'none'}}>Live Tracking</a></Link>
+            </Menu.Item>
+            <Menu.Item key="5" icon={<UserOutlined />}>
+              <Link href="/users"><a style={{textDecoration:'none'}}>Users</a></Link>
             </Menu.Item>
 
           </Menu>

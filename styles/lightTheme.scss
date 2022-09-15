@@ -36,4 +36,17 @@
     .bg{
         background-color: white;
     }
+    .user-profile-list{
+        min-width: 190px;
+        max-width: 190px;
+        cursor: pointer;
+        border: 1px solid grey;
+        //        padding: 20px;
+        margin: 10px;
+        border-radius: 15px;
+    }
+    .user-profile-list:hover{
+        transition-duration: 300ms;
+        background-color: rgba(192, 192, 192, 0.322);
+    }
 }
