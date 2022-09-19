@@ -1,9 +1,10 @@
 import React from 'react'
+import SignIn from '../components/Layouts/SignIn'
 
 const signin = () => {
   return (
     <div>
-      Sign In
+      <SignIn/>
     </div>
   )
 }

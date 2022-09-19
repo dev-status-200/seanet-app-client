@@ -22,6 +22,8 @@
 .fw-300{ font-weight: 300!important; }
 .fw-500{ font-weight: 500!important; }
 .fw-600{ font-weight: 600!important; }
+.fw-700{ font-weight: 700!important; }
+.fw-800{ font-weight: 800!important; }
 
 .table-sm-1{
     max-height: 400px;
@@ -124,3 +126,63 @@
   margin: 12px;
   border-radius: 4px;
   }
+  .slider{
+    cursor: pointer;
+    //border-bottom: 1px solid silver;
+    border-radius: 15px;
+    margin-bottom: 5px;
+  }
+  .slider:hover{
+    transition-duration: 300ms;
+    background-color: rgba(6, 150, 172, 0.202);
+  }
+  .bg-signin{
+    background-image: url("../public/assets/bg.png");
+
+    /* Full height */
+    height: 100vh; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .signin-card{
+    position: relative;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0);
+    text-align: center;
+    top: 20%;
+  }
+  .inp{
+    border-radius: 25px;
+    color: white;
+    padding: 10px 40px 10px 50px;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: #162a4600;
+    position: relative;
+    left: 30px;
+  }
+  .inp:focus{
+    transition-duration: 300ms;
+    outline: #e9e9e9;
+    border: 1px solid rgb(255, 255, 255);
+}
+.username-img{
+  position: relative;
+  left: -260px;
+  bottom: 2px;
+}
+
+.login-btn{
+  background-color: rgb(6, 150, 172)!important;
+  border: 1px solid rgb(6, 150, 172)!important;
+  border-radius: 25px!important;
+  padding:8px 50px 8px 50px!important;
+  font-weight: 500!important;
+}
+.login-btn:hover{
+  transition-duration: 300ms;
+  background-color: rgb(6, 150, 172)!important;
+  color: black;
+}

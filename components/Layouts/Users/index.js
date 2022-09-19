@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Row, Col, Table } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { EditOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
-import Create from './Create';
+import CreateOrEdit from './CreateOrEdit';
 
 const Users = ({userData}) => {
 
+    const [ edit, setEdit ] = useState(false);
     const [ visible, setVisible ] = useState(false);
     const theme = useSelector((state) => state.theme.value);
     const [userList, setUserList] = useState([])
     const [Profile, setProfile] = useState({
         f_name:'-', l_name:'', type:'-', address:'-', designation:'-', username:'-',
-        email:'-', cnic:'-', contact:'-', password:'-'
+        email:'-', cnic:'-', contact:'-', password:'-', Permission:{}
     })
 
     useEffect(() => {
@@ -20,10 +22,19 @@ const Users = ({userData}) => {
     }, [])
 
     const appendClient = (x) => {
+        console.log(x);
         let tempState = [...userList];
         tempState.unshift(x);
         setUserList(tempState);
     }
+    const updateUser = (x) => {
+        console.log(x)
+        setProfile(x)
+        let tempState = [...userList];
+        let i = tempState.findIndex((y=>x.id==y.id));
+        tempState[i] = x;
+        setUserList(tempState);
+      }
 
 return (
 <div className={theme=='light'?'lightTheme':'darkTheme'}>
@@ -59,8 +70,9 @@ return (
     
     <Col md={5}>
         <div className='box m-1'>
+            <EditOutlined style={{fontSize:20, float:'right', cursor:'pointer'}} onClick={()=>{setVisible(true); setEdit(true);}} />
             <div style={{textAlign:'center'}}>
-                <img src={'/assets/user.png'}  />
+                <img src={'/assets/user.png'} />
             </div>
             <div>
                 <span>Full Name</span>
@@ -104,15 +116,15 @@ return (
     </Row>
     <Modal 
         visible={visible}
-        onOk={() => {setVisible(false);}}
-        onCancel={() => {setVisible(false);}}
+        onOk={() => {setVisible(false);setEdit(false);}}
+        onCancel={() => {setVisible(false);setEdit(false);}}
         width={800}
         footer={false}
         bodyStyle={{backgroundColor:theme=='light'?'white':'#162A46', borderRadius:1}}
         style={{color:theme=='light'?'black':'white'}}
     >
-        <Create setVisible={setVisible} appendClient={appendClient} />
-      </Modal>
+        <CreateOrEdit setVisible={setVisible} appendClient={appendClient} edit={edit} setEdit={setEdit} Profile={Profile} updateUser={updateUser} />
+    </Modal>
 </div>
 )}
 

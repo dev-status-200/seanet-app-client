@@ -29,7 +29,7 @@ const Dashboard = ({orderData}) => {
             pending:0.0, gdSubmitted:0.0, moveToPort:0.0, passIssued:0.0, passIn:0.0, markForAss:0.0,
             markForExam:0.0, markForANF:0.0, markForDec:0.0, loadAllowde:0.0, onVessel:0.0,  
         }
-        console.log(perc)
+        //console.log(perc)
         values.forEach(x => {
             //console.log(x.status)
             switch(x.status){
@@ -68,7 +68,7 @@ const Dashboard = ({orderData}) => {
                   break;
               }
         });
-        console.log(tempState)
+        //console.log(tempState)
         setGraphValues(tempState)
 
     }

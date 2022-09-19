@@ -1,4 +1,4 @@
-import { TeamOutlined, AlignLeftOutlined, UserOutlined, ProfileOutlined, SolutionOutlined, ForkOutlined } from '@ant-design/icons';
+import { TeamOutlined, AlignLeftOutlined, UserOutlined, ProfileOutlined, SolutionOutlined, ForkOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -7,8 +7,6 @@ import { BiBarcodeReader } from "react-icons/bi";
 import Router,{ useRouter } from 'next/router';
 import Link from 'next/link';
 
-import Image from 'next/image'
-
 import { useSelector, useDispatch } from 'react-redux'
 import { light, dark } from '/redux/features/themeSlice';
 
@@ -16,9 +14,31 @@ import { light, dark } from '/redux/features/themeSlice';
   
   const MainLayout = ({children}) => {
     const router = useRouter();
-
     const [collapsed, setCollapsed] = useState(true);
-
+    const [permissions, setPermissions] = useState(
+      {
+        f1:  "0",
+        f2:  "0",
+        f3:  "0",
+        f4:  "0",
+        f5:  "0",
+        f6:  "0",
+        f7:  "0",
+        f8:  "0",
+        f9:  "0",
+        f10: "0",
+        f11: "0",
+        f12: "0",
+        f13: "0",
+        f14: "0",
+        f15: "0",
+        f16: "0",
+        f17: "0",
+        f18: "0",
+        f19: "0",
+        f20: "0"
+      }
+    );
     const theme = useSelector((state) => state.theme.value)
     const dispatch = useDispatch();
 
@@ -42,9 +62,15 @@ import { light, dark } from '/redux/features/themeSlice';
       }else if(Cookies.get('theme')==='light'){
         dispatch(light())
       }
-      console.log(theme)
+      //console.log(theme)
     }, [Cookies.get('theme')]);
     
+    useEffect(() => {
+      console.log(JSON.parse(Cookies.get('permissions')))
+      setPermissions(JSON.parse(Cookies.get('permissions')))
+    }, [])
+    
+
     return (
       <Layout className='layoutStyles'>
         <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -60,19 +86,26 @@ import { light, dark } from '/redux/features/themeSlice';
             <Menu.Item key="1" icon={<ProfileOutlined />}>
               <Link href="/dashboard"><a style={{textDecoration:'none'}}>Dashboard</a></Link>
             </Menu.Item>
+            {// permissions.f2=='1'&&
             <Menu.Item key="2" icon={<TeamOutlined />}>
               <Link href="/clients"><a style={{textDecoration:'none'}}>Clients</a></Link>
             </Menu.Item>
+            }
+            { permissions.f2=='1'&&
             <Menu.Item key="3" icon={<SolutionOutlined />}>
               <Link href="/shipments"><a style={{textDecoration:'none'}}>Shipments</a></Link>
             </Menu.Item>
+            }
+            { permissions.f3=='1'&&
             <Menu.Item key="4" icon={<ForkOutlined />}>
               <Link href="/maps"><a style={{textDecoration:'none'}}>Live Tracking</a></Link>
             </Menu.Item>
+            }
+            { permissions.f4=='1'&&
             <Menu.Item key="5" icon={<UserOutlined />}>
               <Link href="/users"><a style={{textDecoration:'none'}}>Users</a></Link>
             </Menu.Item>
-
+            }
           </Menu>
         </Sider>
         <Layout className="site-layout" style={{backgroundColor:'grey'}}>
@@ -88,13 +121,18 @@ import { light, dark } from '/redux/features/themeSlice';
                 }
               }}/>
             </span>
-            <span className='darkTheme' style={{float:'right', marginRight:10, cursor:'pointer'}}>
-            {/* <Link href={`/tracking?id=${value.ClientId}`} rel="noopener noreferrer">
-            <a target="_blank">Customer Link</a>
-          </Link> */}
-              <a rel="noreferrer" target={'_blank'} href='https://cargo-linkers.vercel.app/' style={{textDecoration:'none', color:'white'}}>
-                <BiBarcodeReader style={{marginBottom:3, marginRight:3, fontSize:30}} />Bill Tracking 
-              </a>
+            <span className='darkTheme' style={{float:'right', marginRight:10, padding:1, cursor:'pointer'}}
+              onClick={()=>{
+                Cookies.remove('token');
+                Cookies.remove('username');
+                Cookies.remove('loginId');
+                Cookies.remove('type');
+                Cookies.remove('permissions');
+                Router.push('/signin')
+              }}
+            >
+                <LogoutOutlined style={{marginBottom:3, marginRight:5, fontSize:20}} />
+                <span style={{position:'relative', top:3}}>Sign Out</span>
             </span>
           </Header>
           <Content className={theme==='light'?'light-bg':'dark-bg'}
