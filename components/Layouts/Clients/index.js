@@ -5,9 +5,17 @@ import { Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import Create from './Create';
 
+import Router from 'next/router'
+
 import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StarOutlined } from '@ant-design/icons';
 
-const Clients = ({clientData}) => {
+const Clients = ({clientData, sessionData}) => {
+
+  useEffect(() => {
+    if(sessionData.isLoggedIn==false){
+      Router.push('/signin')
+    }
+  }, [sessionData]);
 
   const [ visible, setVisible ] = useState(false);
   const theme = useSelector((state) => state.theme.value);
@@ -17,6 +25,8 @@ const Clients = ({clientData}) => {
   useEffect(() => {
     setClientList(clientData)
   }, []);
+
+
 
   const appendClient = (x) => {
     let tempState = [...clientList];

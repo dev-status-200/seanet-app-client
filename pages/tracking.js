@@ -1,6 +1,6 @@
 import React from 'react'
 import CustomerTracking from '../components/Layouts/CustomerTracking'
-import axios from 'axios'
+import axios from 'axios';
 
 const tracking = ({clientData}) => {
   return (
@@ -14,7 +14,7 @@ export default tracking
 
 
 export async function getServerSideProps(context){
-  //const cookies = new Cookies(req, res)
+  //const cookies = new Cookies(context)
   console.log(context.query.id)
   const request = await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_CLIENT_ORDER_CHECK_GET,{
       headers:{

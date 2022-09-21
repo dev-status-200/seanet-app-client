@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { light, dark } from '/redux/features/themeSlice';
-
+  
   const { Header, Sider, Content } = Layout;
   
   const MainLayout = ({children}) => {
@@ -41,7 +41,7 @@ import { light, dark } from '/redux/features/themeSlice';
     );
     const theme = useSelector((state) => state.theme.value)
     const dispatch = useDispatch();
-
+    
     const values = () => {
       let value = '1';
         if(router.pathname === '/dashboard'){ value='1' }
@@ -66,11 +66,13 @@ import { light, dark } from '/redux/features/themeSlice';
     }, [Cookies.get('theme')]);
     
     useEffect(() => {
-      console.log(JSON.parse(Cookies.get('permissions')))
-      setPermissions(JSON.parse(Cookies.get('permissions')))
+      let perms = Cookies.get('permissions')
+      console.log(perms)
+      if(perms!=undefined){
+        setPermissions(JSON.parse(Cookies.get('permissions')))
+      }
     }, [])
     
-
     return (
       <Layout className='layoutStyles'>
         <Sider trigger={null} collapsible collapsed={collapsed}>

@@ -34,7 +34,7 @@ const Users = ({userData}) => {
         let i = tempState.findIndex((y=>x.id==y.id));
         tempState[i] = x;
         setUserList(tempState);
-      }
+    }
 
 return (
 <div className={theme=='light'?'lightTheme':'darkTheme'}>

@@ -1,3 +1,44 @@
+// import React, {useEffect} from 'react'
+// import http from 'http'
+
+// const CustomerTracking = () => {
+
+//     useEffect(() => {
+//         var APIKey = '3948072032c6e0924dfcd1b830d7f919'//'6aa19b26151b66c20a34c4c09a3259383eb3a3b';
+//       var receiver = '923360222373';
+//       var sender = '8583';
+//       var textmessage = 'Test SMS from VT API';
+//       var options = {
+//       host: 'api.veevotech.com',
+//       port: 443,
+//       path: "/sendsms?hash=" + APIKey + "&receivenum=" + receiver + "&sendernum=" + encodeURIComponent(sender)+"&textmessage=" + encodeURIComponent(textmessage),
+//       method: 'GET',
+//       setTimeout: 30000
+//       };
+//       var req = http.request(options, function(res) {
+//       console.log('STATUS: ' + res.statusCode);
+//       res.setEncoding('utf8');
+//       res.on('data', function (chunk) {
+//       console.log(chunk.toString());
+//       });
+//       });
+//       req.on('error', function(e) {
+//       console.log('problem with request: ' + e.message);
+//       });
+      
+//       req.end();
+//     }, [])
+    
+
+//   return (
+//     <div>
+//       Message Test
+//     </div>
+//   )
+// }
+
+// export default CustomerTracking
+
 import React, {useState, useEffect} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {IoAddCircleOutline} from 'react-icons/io5'
@@ -41,7 +82,7 @@ const CustomerTracking = ({clientData}) => {
             value='timeline-grey'
         }
         return value
-    }
+    };
     const assessCheck=(status,num)=>{
         let value = ''
         if(num==1 && (status=='Mark For Exam'||status=='Loading Allowed'||status=='On Vessel')){
@@ -54,7 +95,8 @@ const CustomerTracking = ({clientData}) => {
             value='grey'
         }
         return value
-    }
+    };
+    
   return (
     <><div className='orderTrackingStyles' style={{width:'98%'}}><Row>
         <Col md={12} className='mt-4 text-center'>
