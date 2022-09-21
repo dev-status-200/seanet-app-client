@@ -1,8 +1,6 @@
 // import React, {useEffect} from 'react'
 // import http from 'http'
-
 // const CustomerTracking = () => {
-
 //     useEffect(() => {
 //         var APIKey = '3948072032c6e0924dfcd1b830d7f919'//'6aa19b26151b66c20a34c4c09a3259383eb3a3b';
 //       var receiver = '923360222373';
@@ -25,18 +23,14 @@
 //       req.on('error', function(e) {
 //       console.log('problem with request: ' + e.message);
 //       });
-      
 //       req.end();
 //     }, [])
-    
-
 //   return (
 //     <div>
 //       Message Test
 //     </div>
 //   )
 // }
-
 // export default CustomerTracking
 
 import React, {useState, useEffect} from 'react'
@@ -55,9 +49,11 @@ const CustomerTracking = ({clientData}) => {
         console.log(clientData)
         setOrders(clientData.result.Orders)
     }, []);
+
     const onChange = (key) => {
         console.log(key);
     };
+
     const statusCheck=(status,num)=>{
         let value = ''
         if(num==1 && status=='Consignment Moved to Port'){
@@ -83,6 +79,7 @@ const CustomerTracking = ({clientData}) => {
         }
         return value
     };
+
     const assessCheck=(status,num)=>{
         let value = ''
         if(num==1 && (status=='Mark For Exam'||status=='Loading Allowed'||status=='On Vessel')){
@@ -96,9 +93,10 @@ const CustomerTracking = ({clientData}) => {
         }
         return value
     };
-    
+
   return (
-    <><div className='orderTrackingStyles' style={{width:'98%'}}><Row>
+    <>
+    <div className='orderTrackingStyles' style={{width:'98%'}}><Row>
         <Col md={12} className='mt-4 text-center'>
             <h2 className='top-h my-4'>SHIPMENT TRACKING</h2>
             <div className='line text-center'></div>

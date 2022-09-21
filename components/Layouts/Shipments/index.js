@@ -7,13 +7,12 @@ import { Modal, Dropdown, Menu, Space } from 'antd';
 import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import Create from './Create';
 import DropdownOptions from './DropdownOptions';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
-import axios from 'axios';
+
 import Edit from './Edit';
 
 import Link from 'next/link';
 
-const Orders = ({clientData, orderData}) => {
+const Shipments = ({clientData, orderData}) => {
 
   const [ visible, setVisible ] = useState(false);
 
@@ -22,9 +21,11 @@ const Orders = ({clientData, orderData}) => {
 
   const theme = useSelector((state) => state.theme.value);
   const [orderList, setOrderList] = useState([]);
+  const [shipmentList, setShipmentList] = useState([]);
 
   useEffect(() => {
-    setOrderList(orderData)
+    //setOrderList(orderData)
+    setShipmentList(orderData)
   }, []);
 
   // useEffect(() => {
@@ -37,20 +38,28 @@ const Orders = ({clientData, orderData}) => {
   // }, [])
   
   const appendClient = (x) => {
-    let tempState = [...orderList];
+    let tempState = [...shipmentList];
     tempState.unshift(x);
-    setOrderList(tempState);
+    setShipmentList(tempState);
   }
 
   const updateOrder = (x) => {
     console.log(x)
-    let tempState = [...orderList];
+    let tempState = [...shipmentList];
     let i = tempState.findIndex((y=>x.id==y.id));
     tempState[i] = x;
-    setOrderList(tempState);
+    setShipmentList(tempState);
   }
 
-  const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateOrder={updateOrder} /> );
+  const updateShipment = (x) => {
+    console.log(x)
+    let tempState = [...shipmentList];
+    let i = tempState.findIndex((y=>x.id==y.id));
+    tempState[i] = x;
+    setShipmentList(tempState);
+  }
+
+  const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateShipment={updateShipment} /> );
   const link = (value) => ( 
     <Menu 
       items={[
@@ -92,7 +101,7 @@ const Orders = ({clientData, orderData}) => {
               </thead>
               <tbody>
               {
-              orderList.map((x, index) => {
+              shipmentList.map((x, index) => {
               return (
               <tr key={index} className='f text-center'>
                 <td>{index + 1}</td>
@@ -151,10 +160,10 @@ const Orders = ({clientData, orderData}) => {
         style={{color:theme=='light'?'black':'white'}}
       >
         {!edit&&<Create clientData={clientData} appendClient={appendClient} setVisible={setVisible} />}
-        {edit&&<Edit editValues={editValues} setVisible={setVisible} updateOrder={updateOrder} />}
+        {edit&&<Edit editValues={editValues} setVisible={setVisible} updateShipment={updateShipment} />}
       </Modal>
     </div>
   )
 }
 
-export default Orders;
+export default Shipments;

@@ -5,7 +5,7 @@ import { Row, Col, Spinner } from 'react-bootstrap'
 import axios from 'axios';
 import { RiExchangeFill } from 'react-icons/ri'
 
-const DropdownOptions = ({value, theme, updateOrder}) => {
+const DropdownOptions = ({value, theme, updateShipment}) => {
 
   const [visible, setVisible] = useState(false);
   const [load, setLoad] = useState(false);
@@ -25,7 +25,7 @@ const DropdownOptions = ({value, theme, updateOrder}) => {
         setLoad(false);
         let tempValue = value;
         tempValue.status=status;
-        updateOrder(tempValue);
+        updateShipment(tempValue);
         setVisible(false);
         setDetail({Client:{name:''}});
         setStatus('');

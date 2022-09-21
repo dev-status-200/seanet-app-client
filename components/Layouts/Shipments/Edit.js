@@ -3,7 +3,7 @@ import {Row, Col, Form, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-const Edit = ({setVisible, editValues, updateOrder}) => {  
+const Edit = ({setVisible, editValues, updateShipment}) => {  
 
     const theme = useSelector((state) => state.theme.value);
 
@@ -51,7 +51,7 @@ const Edit = ({setVisible, editValues, updateOrder}) => {
                 tempValue.gd=gd,
                 tempValue.terminal=terminal,
                 tempValue.container=container
-                updateOrder(tempValue)
+                updateShipment(tempValue)
                 setLoad(false);
                 setVisible(false);
             }

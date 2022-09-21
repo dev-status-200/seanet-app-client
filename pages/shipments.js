@@ -1,12 +1,12 @@
 import React from 'react'
-import Orders from '../components/Layouts/Orders'
+import Shipments from '../components/Layouts/Shipments'
 import axios from 'axios';
 import Cookies from 'cookies';
 
 const orders = ({clientData, orderData, sessionData}) => {
   return (
     <div>
-      <Orders clientData={clientData} orderData={orderData} sessionData={sessionData} />
+      <Shipments clientData={clientData} orderData={orderData} sessionData={sessionData} />
     </div>
   )
 }
