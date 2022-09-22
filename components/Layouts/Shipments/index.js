@@ -98,7 +98,7 @@ const Shipments = ({clientData, orderData}) => {
                       x.statusNo=="20"?'rgb(185, 73, 73)':x.statusNo=="21"?'rgb(185, 73, 73)':x.statusNo=="22"?'rgb(185, 73, 73)':
                       x.statusNo=="23"?'rgb(185, 73, 73)':x.statusNo=="24"?'rgb(185, 73, 73)':x.statusNo=="25"?'rgb(185, 73, 73)':
                       x.statusNo=="26"?'rgb(185, 73, 73)':x.statusNo=="31"?'rgb(185, 73, 73)':x.statusNo=="32"?'rgb(35, 127, 72)':
-                      x.statusNo=="33"?'rgb(35, 127, 72)':'rgb(37, 37, 37)'}}>
+                      x.statusNo=="33"?'rgb(35, 127, 72)':'rgb(6, 150, 172)'}}>
                       {x.status==""?'Pending GD':x.status}
                       {x.status=="On Vessel"?<CheckCircleOutlined className='my-2' />:""}
                     </Space>
