@@ -47,7 +47,7 @@ const CustomerTracking = ({clientData}) => {
 
     useEffect(() => {
         console.log(clientData)
-        setOrders(clientData.result.Orders)
+        setOrders(clientData.result.Shipments)
     }, []);
 
     const onChange = (key) => {

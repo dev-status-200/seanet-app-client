@@ -119,7 +119,7 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
         </Col>
       </Row>
     </Col>
-    
+
     </Row>
     <button className='custom-btn' disabled={load?true:false} type="submit">{!load?'Submit':<Spinner animation="border" className='mx-3' size="sm" />}</button>
     </Form>

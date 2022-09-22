@@ -72,6 +72,7 @@ const Dashboard = ({orderData}) => {
         setGraphValues(tempState)
 
     }
+
     const options = {
         
         title: {
@@ -91,8 +92,8 @@ const Dashboard = ({orderData}) => {
                 format: '<b>{point.name}</b>: {point.percentage:.2f} %'
             },
             colors: [
-                '#B4B4B4',
                 '#E2E2E2',
+                '#B4B4B4',
                 '#63B6CC',
                 '#1FA5CA',
                 '#1F9DCA',
@@ -169,6 +170,7 @@ const Dashboard = ({orderData}) => {
         //     }
         //   }
     };
+
     const optionsTwo = {
         
         title: {

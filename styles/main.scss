@@ -186,3 +186,49 @@
   background-color: rgb(6, 150, 172)!important;
   color: black;
 }
+.red-stat{
+  color: rgb(185, 73, 73);
+  font-weight: 500;
+}
+.grey-stat{
+  color: grey;
+  font-weight: 500;
+}
+.green-stat{
+  color: rgb(35, 127, 72);
+  font-weight: 500;
+}
+.stat{
+  //text-align: center;
+}
+.selected-status{
+  background-color: rgba(6, 150, 172, 0.645);
+  padding: 10px;
+  color: white;
+  font-weight: 500;
+  width: 110%;
+  position: relative;
+  left: -10px;
+}
+.selected-error-status{
+  background-color: rgb(185, 73, 73);
+  padding: 10px;
+  color: white;
+  font-weight: 500;
+  width: 110%;
+  position: relative;
+  left: -10px;
+}
+.selected-green-status{
+  background-color: rgb(35, 127, 72);
+  padding: 10px;
+  color: white;
+  font-weight: 500;
+  width: 110%;
+  position: relative;
+  left: -10px;
+}
+.row-hover:hover{
+  transition-duration: 300ms;
+  background-color: rgba(6, 150, 172, 0.194);
+}

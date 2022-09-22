@@ -23,18 +23,8 @@ const Shipments = ({clientData, orderData}) => {
   const [shipmentList, setShipmentList] = useState([]);
 
   useEffect(() => {
-    //setOrderList(orderData)
     setShipmentList(orderData)
   }, []);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     console.log('Hello')
-  //     axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_ORDER_GET)
-  //     .then((x)=>setOrderList(x.data))
-  //   }, 1000 * 10)
-  //   return () => clearInterval(intervalId)
-  // }, [])
   
   const appendClient = (x) => {
     let tempState = [...shipmentList];
@@ -42,16 +32,8 @@ const Shipments = ({clientData, orderData}) => {
     setShipmentList(tempState);
   }
 
-  const updateOrder = (x) => {
-    console.log(x)
-    let tempState = [...shipmentList];
-    let i = tempState.findIndex((y=>x.id==y.id));
-    tempState[i] = x;
-    setShipmentList(tempState);
-  }
-
   const updateShipment = (x) => {
-    console.log(x)
+    console.log('edit',x)
     let tempState = [...shipmentList];
     let i = tempState.findIndex((y=>x.id==y.id));
     tempState[i] = x;
@@ -102,7 +84,7 @@ const Shipments = ({clientData, orderData}) => {
               {
               shipmentList.map((x, index) => {
               return (
-              <tr key={index} className='f text-center'>
+              <tr key={index} className='f text-center row-hover'>
                 <td>{index + 1}</td>
                 <td>{x.Client.name}</td>
                 <td>{x.consignment}</td>
@@ -111,12 +93,12 @@ const Shipments = ({clientData, orderData}) => {
                 <td>{x.gd}</td>
                 <td>
                   <Dropdown overlay={menu(x)}>
-                    <Space style={{cursor:'pointer',
-                      color:x.status==""?'silver':(x.status=="GD Submitted"&&theme=='dark')?'white':
-                      (x.status=="GD Submitted"&&theme=='light')?'black':
-                      (x.status=="Consignment Moved to Port"||x.status=="Gate Pass Issued"||x.status=="Pass In"||x.status=="Mark For Assessment"||x.status=="Mark For Examination"
-                      ||x.status=="Mark For ANF"||x.status=="Mark For DEC")?'#0066cc':'green'
-                    }}>
+                    <Space style={{cursor:'pointer', fontWeight:500,
+                      color:x.statusNo=="0"?'silver':x.statusNo=="17"?'rgb(185, 73, 73)':x.statusNo=="19"?'rgb(185, 73, 73)':
+                      x.statusNo=="20"?'rgb(185, 73, 73)':x.statusNo=="21"?'rgb(185, 73, 73)':x.statusNo=="22"?'rgb(185, 73, 73)':
+                      x.statusNo=="23"?'rgb(185, 73, 73)':x.statusNo=="24"?'rgb(185, 73, 73)':x.statusNo=="25"?'rgb(185, 73, 73)':
+                      x.statusNo=="26"?'rgb(185, 73, 73)':x.statusNo=="31"?'rgb(185, 73, 73)':x.statusNo=="32"?'rgb(35, 127, 72)':
+                      x.statusNo=="33"?'rgb(35, 127, 72)':'rgb(37, 37, 37)'}}>
                       {x.status==""?'Pending GD':x.status}
                       {x.status=="On Vessel"?<CheckCircleOutlined className='my-2' />:""}
                     </Space>

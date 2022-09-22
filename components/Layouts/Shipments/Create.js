@@ -14,18 +14,23 @@ const Create = ({clientData, appendClient, setVisible}) => {
     const [referenceInv, setReferenceInv] = useState('');
     const [vessel, setVessel] = useState('');
     const [status, setStatus] = useState('');
+    const [statusNo, setStatusNo] = useState('');
     const [gd, setGd] = useState('');
     const [container, setContainer] = useState('');
     const [terminal, setTerminal] = useState('');
 
     const [statuses, setStatuses] = useState([
         {name:'GD Submitted', mark:false},
-        {name:'Consignment Moved to Port', mark:false}
+        {name:'CNTR Move To Port', mark:false}
     ])
 
     const handleSubmit = (e) => {
         setLoad(true);
         e.preventDefault();
+        if(status==''){
+          setStatusNo('0')
+        }
+        //console.log(status)
         axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_CREATE_ORDER_POST,{
             ClientId:clientId,
             referenceInvoice:referenceInv,
@@ -34,7 +39,8 @@ const Create = ({clientData, appendClient, setVisible}) => {
             gd:gd,
             terminal:terminal,
             container:container,
-            status:status
+            status:status,
+            statusNo:(status==''?0:statusNo)
         }).then((x)=>{
             let tempObj = x.data;
             let clientName = clientData.find(obj => {
@@ -60,7 +66,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
             setTerminal("")
             setStatuses([
               {name:'GD Submitted', mark:false},
-              {name:'Consignment Moved to Port', mark:false}
+              {name:'CNTR Move To Port', mark:false}
             ])
             setLoad(false);
             setVisible(false);
@@ -150,7 +156,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
                   if(x.mark == true){
                     setStatuses([
                       {name:'GD Submitted', mark:false},
-                      {name:'Consignment Moved to Port', mark:false}
+                      {name:'CNTR Move To Port', mark:false}
                   ])
                   setStatus("")
                   }
@@ -161,6 +167,13 @@ const Create = ({clientData, appendClient, setVisible}) => {
                         if(y.name==x.name){
                             y.mark=true
                             setStatus(y.name)
+                            if(y.name=="GD Submitted"){
+                              setStatusNo('1')
+                            }else if(y.name=="CNTR Move To Port"){
+                              setStatusNo('2')
+                            }else {
+                              setStatusNo('0')
+                            }
                           }else{
                             y.mark=false
                         }
