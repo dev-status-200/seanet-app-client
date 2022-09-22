@@ -93,7 +93,7 @@ const DropdownOptions = ({value, theme, updateShipment}) => {
           },
         ]}
       />
-      <Modal 
+      <Modal
         visible={visible}
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}

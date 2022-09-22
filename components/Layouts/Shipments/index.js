@@ -9,7 +9,6 @@ import Create from './Create';
 import DropdownOptions from './DropdownOptions';
 
 import Edit from './Edit';
-
 import Link from 'next/link';
 
 const Shipments = ({clientData, orderData}) => {
