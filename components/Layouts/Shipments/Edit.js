@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Row, Col, Form, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { PatternFormat  } from 'react-number-format';
 
 const Edit = ({setVisible, editValues, updateShipment}) => {  
 
@@ -17,6 +18,11 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
     const [gd, setGd] = useState('');
     const [container, setContainer] = useState('');
     const [terminal, setTerminal] = useState('');
+    const [contacts, setContacts] = useState([
+      {num:''},
+      {num:''},
+      {num:''},
+  ])
 
     useEffect(() => {
         console.log(editValues)
@@ -28,7 +34,28 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
         setContainer(editValues.container)
         setGd(editValues.gd)
         setTerminal(editValues.terminal)
+        let tempState = [
+          {num:''},
+          {num:''},
+          {num:''},
+        ]
+        editValues.contacts.split(', ').forEach((x, index)=>{
+          tempState[index].num=x
+        });
+        setContacts(tempState)
     }, [editValues])
+
+    const converNumToString = (contactArray) => {
+      let nums = ''
+        contactArray.forEach((x, index)=>{
+          if(index<2){
+            nums=nums + x.num + ", "
+          }else{
+            nums=nums + x.num
+          }
+        })
+        return nums
+    }
 
     const handleSubmit = (e) => {
         setLoad(true);
@@ -39,6 +66,7 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
             consignment:consignment,
             vessel:vessel,
             gd:gd,
+            contacts:converNumToString(contacts),
             terminal:terminal,
             container:container
         }).then((x)=>{
@@ -48,6 +76,7 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
                 tempValue.referenceInvoice=referenceInv,
                 tempValue.consignment=consignment,
                 tempValue.vessel=vessel,
+                tempValue.contacts=converNumToString(contacts),
                 tempValue.gd=gd,
                 tempValue.terminal=terminal,
                 tempValue.container=container
@@ -65,10 +94,12 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
     <Col>
     <div className='f-30'>Order</div>
     <hr/>
+    <Row>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Client</Form.Label>
             <Form.Control type="text" required defaultValue={name} />
         </Form.Group>
+      <Col md={6}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Consignment Type</Form.Label>
         <Form.Select aria-label="Default select example" value={consignment} required onChange={(e)=>setConsignment(e.target.value)}>
@@ -81,11 +112,14 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
         <option value="EPZ(E)">EPZ{'('}E{')'}</option>
         </Form.Select>
       </Form.Group>
+      </Col>
+      <Col md={6}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Client Reference Invoice</Form.Label>
         <Form.Control type="text" placeholder="Client Ref Inv" required value={referenceInv} onChange={(e)=>setReferenceInv(e.target.value)} />
       </Form.Group>
-      <Row>
+      </Col>
+      
         <Col md={6}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Vessel</Form.Label>
@@ -118,10 +152,55 @@ const Edit = ({setVisible, editValues, updateShipment}) => {
         </Form.Group>
         </Col>
       </Row>
+      <Row>
+        <h6>Add Phone Numbers</h6>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[0].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[0].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
+        </Col>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[1].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[1].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
+        </Col>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[2].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[2].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
+        </Col>
+      </Row>
     </Col>
 
     </Row>
-    <button className='custom-btn' disabled={load?true:false} type="submit">{!load?'Submit':<Spinner animation="border" className='mx-3' size="sm" />}</button>
+    <button className='custom-btn mt-3' disabled={load?true:false} type="submit">{!load?'Submit':<Spinner animation="border" className='mx-3' size="sm" />}</button>
     </Form>
     </div>
   )

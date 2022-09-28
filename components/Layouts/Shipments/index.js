@@ -11,6 +11,10 @@ import DropdownOptions from './DropdownOptions';
 import Edit from './Edit';
 import Link from 'next/link';
 
+import moment from 'moment'
+
+import axios from 'axios';
+
 const Shipments = ({clientData, orderData}) => {
 
   const [ visible, setVisible ] = useState(false);
@@ -19,7 +23,6 @@ const Shipments = ({clientData, orderData}) => {
   const [ editValues, setEditValues ] = useState({});
 
   const theme = useSelector((state) => state.theme.value);
-  const [orderList, setOrderList] = useState([]);
   const [shipmentList, setShipmentList] = useState([]);
 
   useEffect(() => {
@@ -32,12 +35,22 @@ const Shipments = ({clientData, orderData}) => {
     setShipmentList(tempState);
   }
 
-  const updateShipment = (x) => {
+  const updateShipment = async(x) => {
     console.log('edit',x)
+    
     let tempState = [...shipmentList];
     let i = tempState.findIndex((y=>x.id==y.id));
     tempState[i] = x;
     setShipmentList(tempState);
+    x.contacts.split(', ').forEach(async(y)=>{
+      await axios.post('https://api.ultramsg.com/instance18662/messages/chat',{
+      token:"1vgvz6c6zs7wjlfc",
+      to:y,
+      body:`The Shipment Status has been changed to ${x.status} Dated:${moment().format('MMMM Do YYYY, h:mm:ss a')}`,
+      priority:"10",
+      referenceId:""
+    }).then((z)=>console.log(z.data))
+})
   }
 
   const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateShipment={updateShipment} /> );

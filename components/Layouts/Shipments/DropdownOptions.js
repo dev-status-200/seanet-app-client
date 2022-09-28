@@ -20,6 +20,7 @@ const DropdownOptions = ({value, theme, updateShipment}) => {
 
   const updateStatus = async() => {
     setLoad(true);
+    console.log(value.contacts)
     await axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_STATUS_UPDATE_ORDER_POST,{
       id:detail.id,
       status:status,
@@ -38,7 +39,9 @@ const DropdownOptions = ({value, theme, updateShipment}) => {
       }
     })
   }
+
   useEffect(() => {
+    console.log(value)
     setCurrStatNo(value.statusNo)
   }, [value])
 

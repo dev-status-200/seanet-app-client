@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {Row, Col, Form, Spinner } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { PatternFormat  } from 'react-number-format';
 
 const Create = ({clientData, appendClient, setVisible}) => {  
 
@@ -23,13 +24,30 @@ const Create = ({clientData, appendClient, setVisible}) => {
         {name:'GD Submitted', mark:false},
         {name:'CNTR Move To Port', mark:false}
     ])
+    const [contacts, setContacts] = useState([
+        {num:''},
+        {num:''},
+        {num:''},
+    ])
 
+    const converNumToString = (contactArray) => {
+      let nums = ''
+        contactArray.forEach((x, index)=>{
+          if(index<2){
+            nums=nums + x.num + ", "
+          }else{
+            nums=nums + x.num
+          }
+        })
+        return nums
+    }
     const handleSubmit = (e) => {
         setLoad(true);
         e.preventDefault();
         if(status==''){
           setStatusNo('0')
         }
+        
         //console.log(status)
         axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_CREATE_ORDER_POST,{
             ClientId:clientId,
@@ -37,6 +55,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
             consignment:consignment,
             vessel:vessel,
             gd:gd,
+            contacts:converNumToString(contacts),
             terminal:terminal,
             container:container,
             status:status,
@@ -53,7 +72,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
                 status: x.data.status, terminal: x.data.terminal,
                 container: x.data.container, ClientId: x.data.ClientId,
                 updatedAt: x.data.updatedAt, createdAt: x.data.createdAt,
-                Client:{name:clientName}
+                contacts:x.data.contacts, Client:{name:clientName}
             }
             appendClient(tempObj);
             setClientId("")
@@ -64,6 +83,11 @@ const Create = ({clientData, appendClient, setVisible}) => {
             setGd("")
             setContainer("")
             setTerminal("")
+            setContacts([
+              {num:''},
+              {num:''},
+              {num:''},
+          ])
             setStatuses([
               {name:'GD Submitted', mark:false},
               {name:'CNTR Move To Port', mark:false}
@@ -80,6 +104,8 @@ const Create = ({clientData, appendClient, setVisible}) => {
     <Col md={8}>
     <div className='f-30'>Shipment</div>
     <hr/>
+      <Row>
+      <Col md={6}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Client</Form.Label>
         <Form.Select aria-label="Default select example" value={clientId} required onChange={(e)=>setClientId(e.target.value)}>
@@ -92,6 +118,8 @@ const Create = ({clientData, appendClient, setVisible}) => {
             })}
         </Form.Select>
       </Form.Group>
+      </Col>
+      <Col md={6}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Consignment Type</Form.Label>
         <Form.Select aria-label="Default select example" value={consignment} required onChange={(e)=>setConsignment(e.target.value)}>
@@ -104,11 +132,13 @@ const Create = ({clientData, appendClient, setVisible}) => {
         <option value="EPZ(E)">EPZ{'('}E{')'}</option>
         </Form.Select>
       </Form.Group>
+      </Col>
+      <Col md={6}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Client Reference Invoice</Form.Label>
         <Form.Control type="text" placeholder="Client Ref Inv" required value={referenceInv} onChange={(e)=>setReferenceInv(e.target.value)} />
       </Form.Group>
-      <Row>
+      </Col>
         <Col md={6}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Vessel</Form.Label>
@@ -139,6 +169,51 @@ const Create = ({clientData, appendClient, setVisible}) => {
           <Form.Label>GD no.</Form.Label>
           <Form.Control type="text" placeholder="GD #" value={gd} onChange={(e)=>setGd(e.target.value)} />
         </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <h6>Add Phone Numbers</h6>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[0].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[0].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
+        </Col>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[1].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[1].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
+        </Col>
+        <Col md={4}>
+        <PatternFormat 
+            format="92##########"
+            style={{border:'1px solid silver', borderRadius:'5px', width:"100%", height:'39px', paddingLeft:'15px'}}
+            mask="-"
+            allowEmptyFormatting={true}
+            value={contacts[2].num} 
+            onChange={(e)=>{
+              let tempState = [...contacts];
+              tempState[2].num = e.target.value
+              setContacts(tempState)
+              }}
+          />
         </Col>
       </Row>
     </Col>
@@ -186,7 +261,7 @@ const Create = ({clientData, appendClient, setVisible}) => {
     }
     </Col>
     </Row>
-    <button className='custom-btn' disabled={load?true:false} type="submit">{!load?'Submit':<Spinner animation="border" className='mx-3' size="sm" />}</button>
+    <button className='custom-btn mt-3' disabled={load?true:false} type="submit">{!load?'Submit':<Spinner animation="border" className='mx-3' size="sm" />}</button>
     </Form>
     </div>
   )
