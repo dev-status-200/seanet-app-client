@@ -43,14 +43,14 @@ const Shipments = ({clientData, orderData}) => {
     tempState[i] = x;
     setShipmentList(tempState);
     x.contacts.split(', ').forEach(async(y)=>{
-      await axios.post('https://api.ultramsg.com/instance18662/messages/chat',{
-      token:"1vgvz6c6zs7wjlfc",
-      to:y,
-      body:`The Shipment Status has been changed to ${x.status} Dated:${moment().format('MMMM Do YYYY, h:mm:ss a')}`,
-      priority:"10",
-      referenceId:""
-    }).then((z)=>console.log(z.data))
-})
+        await axios.post('https://api.ultramsg.com/instance18959/messages/chat',{
+        token:"v4hdu4t4288wktls",
+        to:y,
+        body:`*Shipment Status Update*\n\n Container no.: ${x.container} \n Consignment Type: ${x.consignment}\n Status: ${x.status} \n Date: ${moment().format('MMMM Do YYYY')}\n Time: ${moment().format('h:mm a')}`,
+        priority:"10",
+        referenceId:""
+      })
+    })
   }
 
   const menu = (value) => ( <DropdownOptions value={value} theme={theme} updateShipment={updateShipment} /> );
