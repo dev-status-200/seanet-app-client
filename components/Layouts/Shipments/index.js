@@ -43,8 +43,8 @@ const Shipments = ({clientData, orderData}) => {
     tempState[i] = x;
     setShipmentList(tempState);
     x.contacts.split(', ').forEach(async(y)=>{
-        await axios.post('https://api.ultramsg.com/instance18959/messages/chat',{
-        token:"v4hdu4t4288wktls",
+        await axios.post('https://api.ultramsg.com/instance19454/messages/chat',{
+        token:"h17sq9nonkczwcn5",
         to:y,
         body:`*Shipment Status Update*\n\n Container no.: ${x.container} \n Consignment Type: ${x.consignment}\n Status: ${x.status} \n Date: ${moment().format('MMMM Do YYYY')}\n Time: ${moment().format('h:mm a')}`,
         priority:"10",

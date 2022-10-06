@@ -1,117 +1,85 @@
-/* See https://github.com/mapbox/mapbox-react-examples/ for full example */
+import React, { useState, useEffect, useRef } from 'react';
+import mapboxgl from 'mapbox-gl';
+import io from "socket.io-client";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+const socket = io.connect(process.env.NEXT_PUBLIC_SEANET_SYS_URL);
 
-class Application extends React.Component {
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWJkdWxsYWh0ZWFtaGFpbCIsImEiOiJjbDdvbGtucjEwNm91M3ZueGZwaTEwcDg4In0.Be48QvgVjJ5-MNt3pzEnfw';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      lng: -83,
-      lat: 40,
-      zoom: 7,
-      counties: [39049, 39159]
-    };
-  }
+function MapComp() {
+  const mapContainer = useRef();
 
-  componentDidMount() {
-    const { lng, lat, zoom, counties } = this.state;
+  const [long, setLong] = useState('');
+  const [lat, setLat] = useState('');
 
-    const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [lng, lat],
-      zoom
-    });
-    
-    map.on('load', () => {
-      map.addSource('counties', {
-        'type': 'vector',
-        'url': 'mapbox://mapbox.82pkq93d'
-      });
+  useEffect(() => {
+	const map = new mapboxgl.Map({
+		container:mapContainer.current,
+		style: 'mapbox://styles/mapbox/dark-v10',
+		center:[
+			67.06765895742515,
+			24.877320553480782
+	  ],
+		zoom: 15
+	  })
+	  map.on('load', async () => {
+		  let data = {
+			type: "FeatureCollection",
+			features: [
+				{
+					type: "Feature",
+					geometry: {
+						type: "LineString",
+						coordinates: [
+							[
+								67.06765895742515,
+								24.877320553480782
+							],
+						]
+					}
+				}
+			]
+		}
+		  map.addSource('trace', { type: 'geojson', data: data });
+		  map.addLayer({
+			  'id': 'trace',
+			  'type': 'circle',
+			  'source': 'trace',
+			  'paint': {
+				'circle-color': '#11b4da',
+				'circle-radius': 4,
+				'circle-stroke-width': 1,
+				'circle-stroke-color': '#fff'
+			  }
+		  });
 
-      map.addLayer(
-        {
-          'id': 'counties',
-          'type': 'fill',
-          'source': 'counties',
-          'source-layer': 'original',
-          'paint': {
-            'fill-color': 'transparent',
-            'fill-outline-color': 'rgba(0,0,0, 0.1)',
-          }
-        },
-      );
-    
-    	
-      map.addLayer(
-        {
-          'id': 'counties-highlighted',
-          'type': 'fill',
-          'source': 'counties',
-          'source-layer': 'original',
-          'paint': {
-            'fill-color': 'rgba(138, 130, 173, 0.6)',
-          },
-          'filter': ['in', 'FIPS', ...counties]
-        },
-      );
-    
-    });
+		  let coords = []
+		  socket.on("receive_message", (datas) => {
+			console.log(parseFloat(datas.long), parseFloat(datas.lat));
+			console.log(datas.long, datas.lat);
+				 coords = [ parseFloat(datas.long), parseFloat(datas.lat) ]
 
-     map.on('move', () => {
-      const { lng, lat } = map.getCenter();
+				 data.features[0].geometry.coordinates.push(coords);
+				 map.getSource('trace').setData(data);
+				 map.panTo(coords);
+		  });
+		}
+	  );
 
-       this.setState({
-         lng: lng.toFixed(4),
-         lat: lat.toFixed(4),
-         zoom: map.getZoom().toFixed(2)
-       });
-     });
-    
-     map.on('click', 'counties', (e) => {
-            map.getCanvas().style.cursor = 'pointer';
+	},[socket])
 
-            // Use the first found feature.
-            var feature = e.features[0];
+	const sendMessage = () => {
+	  socket.emit("send_message", {lat:lat, long:long});
+	};
 
-						const {FIPS} = feature.properties;
-            
-            let updatedCounties;
-            
-            if(counties.includes(FIPS)) {
-            	updatedCounties = counties.filter(el => el !== FIPS);
-            } else {
-            	updatedCounties = counties.concat([FIPS]);         
-            }
-            
-            this.setState({
-            	counties: updatedCounties
-            });
-            
-            map.setFilter('counties-highlighted', [
-            	'in',
-            	'FIPS',
-            ...updatedCounties
-        	]);
-
-        });
-  }
-
-  render() {
-    const { lng, lat, zoom, counties } = this.state;
-
-		const countyList = counties.map(el => el);
-
-    return (
-      <div>
-        <div className="inline-block absolute top left mt12 ml12 bg-darken75 color-white z1 py6 px12 round-full txt-s txt-bold">
-          <div>{`Longitude: ${lng} Latitude: ${lat} Zoom: ${zoom} Counties: ${countyList}`}</div>
-        </div>
-        <div ref={el => this.mapContainer = el} className="absolute top right left bottom" />
-      </div>
-    );
-  }
+  return (
+    <div className='box'>
+      <div ref={mapContainer} style={{width:'80vw', height:'70vh', borderRadius:5, border:'1px solid black'}}></div>
+	<input value={lat} onChange={(e)=>setLat(e.target.value)} placeholder='lattitude' />
+	<input value={long} onChange={(e)=>setLong(e.target.value)} placeholder='longitude' />
+	<button onClick={sendMessage}>Click</button>
+	</div>
+  )
 }
 
-ReactDOM.render(<Application />, document.getElementById('app'));
+export default MapComp
