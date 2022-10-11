@@ -177,24 +177,12 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
             }
         })
     }
-
     const removeValues = () => {
-        setId("")
-        setF_name("")
-        setL_name("")
-        setType("")
-        setAddress("")
-        setDesignation("")
-        setUsername("")
-        setEmail("")
-        setCnic("")
-        setContact("")
-        setPassword("")
+        setId(""); setF_name(""); setL_name(""); setType("");  setAddress(""); setDesignation("")
+        setUsername(""); setEmail(""); setCnic(""); setContact(""); setPassword("")
 
-        setShipment(false)
-        setAnalytics(false) 
-        setLiveTrack(false) 
-        setUserManage(false)
+        setShipment(false); setAnalytics(false) 
+        setLiveTrack(false); setUserManage(false)
     }
 
   return (
@@ -223,9 +211,9 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         <Form.Select aria-label="Default select example" value={type} required onChange={(e)=>setType(e.target.value)}>
         <option>--- Select Type ---</option>
         <option value="Admin">Admin</option>
-        <option value="Moderator">Moderator</option>
         <option value="Agent">Agent</option>
-        <option value="Tracker">Tracker</option>
+        <option value="Port User">Port User</option>
+        <option value="Rider">Rider</option>
         </Form.Select>
       </Form.Group>
     </Col>
@@ -256,13 +244,13 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
     <Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
       <Form.Label>Username</Form.Label>
-      <Form.Control type="text" placeholder="username" required value={username} onChange={(e)=>setUsername(e.target.value)} />
+      <Form.Control type="text" placeholder="username" value={username} onChange={(e)=>setUsername(e.target.value)} />
     </Form.Group>
     </Col>
     <Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
       <Form.Label>E-mail</Form.Label>
-      <Form.Control type="text" placeholder="E-mail" required value={email} onChange={(e)=>setEmail(e.target.value)} />
+      <Form.Control type="text" placeholder="E-mail" value={email} onChange={(e)=>setEmail(e.target.value)} />
     </Form.Group>
     </Col>
     <Col md={6}>
@@ -306,7 +294,7 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         </Col>
       </Row>
       <Row className='slider' onClick={()=>setLiveTrack(!liveTrack)}>
-        <Col className='py-1'><span>Live Tracking</span></Col>
+        <Col className='py-1'><span>Rider Tracking</span></Col>
         <Col className='py-1'>
         <Form.Check
           style={{float:'right'}}

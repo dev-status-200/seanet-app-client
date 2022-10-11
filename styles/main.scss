@@ -232,3 +232,14 @@
   transition-duration: 300ms;
   background-color: rgba(6, 150, 172, 0.194);
 }
+.rider-row{
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border-radius: 5px;
+}
+.rider-row:hover{
+  transition-duration: 300ms;
+  background-color: rgba(6, 150, 172, 0.502);
+}

@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps:{ session, ...pageProps }, }) {
 
   return(
     <>
-    { (router.pathname !='/signin' && router.pathname !='/tracking' && router.pathname !='/') && 
+    { (router.pathname !='/signin' && router.pathname !='/') && 
       <Provider store={store}>
         <MainLayout className='lightTheme'>
             { loading && <Loader/> }
@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps:{ session, ...pageProps }, }) {
         </MainLayout>
       </Provider>
     }
-    { (router.pathname =='/signin' || router.pathname =='/tracking' || router.pathname =='/') &&
+    { (router.pathname =='/signin' || router.pathname =='/') &&
       <>
         { loading && <Loader /> }
         { !loading && <Component {...pageProps} /> }

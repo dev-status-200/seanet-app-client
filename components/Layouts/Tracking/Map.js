@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Spinner } from 'react';
 import mapboxgl from 'mapbox-gl';
 import io from "socket.io-client";
 
@@ -6,7 +6,7 @@ const socket = io.connect(process.env.NEXT_PUBLIC_SEANET_SYS_URL);
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWJkdWxsYWh0ZWFtaGFpbCIsImEiOiJjbDdvbGtucjEwNm91M3ZueGZwaTEwcDg4In0.Be48QvgVjJ5-MNt3pzEnfw';
 
-function MapComp() {
+const Map = ({selectedRider}) => {
   const mapContainer = useRef();
   let map;
 
@@ -55,7 +55,7 @@ function MapComp() {
 		})
 		
 		map.on('load', async () => {
-
+            map.resize();
 			map.loadImage(
 				'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
 				(error, image) => {
@@ -101,10 +101,14 @@ function MapComp() {
   	useEffect(() => {
 		let coords = [];
 		socket.on("receive_message", async(data) => {
-			coords = [ parseFloat(data.long), parseFloat(data.lat) ]
-			let prevCoords = mapData.features[0].geometry.coordinates;
-			prevCoords.push(coords);
-			getMatch(prevCoords);
+            //console.log(data.coordsList)
+			//coords = [ parseFloat(data.long), parseFloat(data.lat) ]
+			let prevCoords = data.coordsList;
+            prevCoords.unshift([67.06514346480135, 24.873956517462556])
+			//prevCoords = data.coordsList;
+			//console.log(prevCoords)
+            //console.log(data.coordsList)
+            getMatch(prevCoords);
 		});
 	},[socket])
 
@@ -129,31 +133,27 @@ function MapComp() {
 		
 		let tempMapData = mapData;
 		tempMapData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates;
+        console.log(response.matchings[0].geometry.coordinates)
 		setMapData(tempMapData)
 		map.getSource('trace').setData(mapData);
 		map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]);
 		
 		let tempMarkerData = markerData;
 		
-		console.log("Before Data Update")
-		console.log(tempMarkerData)
-		
-		console.log(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1])
 		tempMarkerData.features[1].geometry.coordinates = response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]
-		console.log("After Data Update")
-		console.log(tempMarkerData)
+
 		setMarkerData(tempMarkerData)
 		map.getSource('points').setData(tempMarkerData);
 	}
 
   return (
-    <div className='box'>
-      	<div ref={mapContainer} style={{width:'80vw', height:'70vh', borderRadius:5, border:'1px solid black'}}></div>
+    <div className=''>
+      	<div ref={mapContainer} style={{width:'70vw', height:'62vh', border:'1px solid silver', borderRadius:5}}></div>
 	</div>
   )
 }
 
-export default MapComp
+export default Map
 
 // let tempMarkerData = markerData;
 // tempMarkerData.features[1].geometry.coordinates=[response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]]

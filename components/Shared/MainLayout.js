@@ -47,7 +47,7 @@ import { light, dark } from '/redux/features/themeSlice';
         if(router.pathname === '/dashboard'){ value='1' }
         else if(router.pathname === '/clients'){ value='2' }
         else if(router.pathname === '/shipments'){ value='3' }
-        else if(router.pathname === '/maps'){ value='4' }
+        else if(router.pathname === '/tracking'){ value='4' }
         else if(router.pathname === '/users'){ value='5' }
         else { value='null' }
       return value
@@ -67,7 +67,7 @@ import { light, dark } from '/redux/features/themeSlice';
     
     useEffect(() => {
       let perms = Cookies.get('permissions')
-      console.log(perms)
+      //console.log(perms)
       if(perms!=undefined){
         setPermissions(JSON.parse(Cookies.get('permissions')))
       }
@@ -100,7 +100,7 @@ import { light, dark } from '/redux/features/themeSlice';
             }
             { permissions.f3=='1'&&
             <Menu.Item key="4" icon={<ForkOutlined />}>
-              <Link href="/maps"><a style={{textDecoration:'none'}}>Live Tracking</a></Link>
+              <Link href="/tracking"><a style={{textDecoration:'none'}}>Tracking</a></Link>
             </Menu.Item>
             }
             { permissions.f4=='1'&&

@@ -1,27 +1,29 @@
 import React from 'react'
-import CustomerTracking from '../components/Layouts/CustomerTracking'
+import MapComp from '../components/Layouts/MapComp';
 import axios from 'axios';
+import Cookies from 'cookies';
+import Tracking from '../components/Layouts/Tracking';
 
-const tracking = ({clientData}) => {
+const tracking = ({sessionData, RidersData}) => {
   return (
     <div>
-      <CustomerTracking clientData={clientData} />
+      <Tracking sessionData={sessionData} RidersData={RidersData} />
     </div>
   )
 }
 
 export default tracking
-
-
-export async function getServerSideProps(context){
-  //const cookies = new Cookies(context)
-  console.log(context.query.id)
-  const request = await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_CLIENT_ORDER_CHECK_GET,{
-      headers:{
-          "id": `${context.query.id}`
-      }
+export async function getServerSideProps({req,res}){
+  const cookies = new Cookies(req, res)
+  const sessionRequest = await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_VERIFY_USER,{
+    headers:{"x-access-token": `${cookies.get('token')}`}
   }).then((x)=>x.data);
+  
+  const ridersRequest = await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_RIDERS_USER,{
+    headers:{"x-access-token": `${cookies.get('token')}`}
+  }).then((x)=>x.data);
+
   return{
-      props: { clientData: request }
+      props: { sessionData:sessionRequest, RidersData:ridersRequest }
   }
 }
