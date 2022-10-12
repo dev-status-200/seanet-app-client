@@ -97,7 +97,6 @@ const Map = ({selectedRider}) => {
 			})
 		})
 	}, [])
-
   	useEffect(() => {
 		let coords = [];
 		socket.on("receive_message", async(data) => {
@@ -126,24 +125,20 @@ const Map = ({selectedRider}) => {
 		});
 		const query = await fetch(`https://api.mapbox.com/matching/v5/mapbox/driving/${newCoords}?geometries=geojson&radiuses=${radiuses}&steps=true&access_token=${mapboxgl.accessToken}`,{method:'GET'});
 		const response = await query.json();
-		if (response.code !== 'Ok') {
-			alert(`${response.code} - ${response.message}.\n\nFor more information: https://docs.mapbox.com/api/navigation/map-matching/#map-matching-api-errors`);
-			return;
-		}
-		
-		let tempMapData = mapData;
-		tempMapData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates;
-        console.log(response.matchings[0].geometry.coordinates)
-		setMapData(tempMapData)
-		map.getSource('trace').setData(mapData);
-		map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]);
-		
-		let tempMarkerData = markerData;
-		
-		tempMarkerData.features[1].geometry.coordinates = response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]
 
-		setMarkerData(tempMarkerData)
-		map.getSource('points').setData(tempMarkerData);
+		if(response.code === 'Ok'){
+			let tempMapData = mapData;
+			tempMapData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates;
+			setMapData(tempMapData)
+			map.getSource('trace').setData(mapData);
+			map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]);
+			
+			let tempMarkerData = markerData;
+			tempMarkerData.features[1].geometry.coordinates = response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]
+			setMarkerData(tempMarkerData)
+
+			map.getSource('points').setData(tempMarkerData);
+		}
 	}
 
   return (
