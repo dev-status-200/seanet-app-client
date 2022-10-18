@@ -18,6 +18,7 @@ const Tracking = ({sessionData, RidersData}) => {
 
     useEffect(() => {
       setRiderList(RidersData);
+      console.log(RidersData)
     }, [])
       
   return (

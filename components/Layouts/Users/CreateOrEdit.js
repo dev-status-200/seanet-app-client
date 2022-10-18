@@ -212,8 +212,6 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         <option>--- Select Type ---</option>
         <option value="Admin">Admin</option>
         <option value="Agent">Agent</option>
-        <option value="Port User">Port User</option>
-        <option value="Rider">Rider</option>
         </Form.Select>
       </Form.Group>
     </Col>
