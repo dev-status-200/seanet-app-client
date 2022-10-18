@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { Row, Col, Table } from 'react-bootstrap'
 import { Modal } from 'antd';
-
 import { useSelector } from 'react-redux';
 import Create from './Create';
-
 import Router from 'next/router'
 
 import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StarOutlined } from '@ant-design/icons';
@@ -12,9 +10,7 @@ import { CloseCircleOutlined, EditOutlined, InfoCircleOutlined, StarOutlined } f
 const Clients = ({clientData, sessionData}) => {
 
   useEffect(() => {
-    if(sessionData.isLoggedIn==false){
-      Router.push('/signin')
-    }
+    if(sessionData.isLoggedIn==false) Router.push('/signin');
   }, [sessionData]);
 
   const [ visible, setVisible ] = useState(false);
@@ -25,8 +21,6 @@ const Clients = ({clientData, sessionData}) => {
   useEffect(() => {
     setClientList(clientData)
   }, []);
-
-
 
   const appendClient = (x) => {
     let tempState = [...clientList];

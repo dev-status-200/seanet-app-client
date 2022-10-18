@@ -1,4 +1,8 @@
-import { TeamOutlined, AlignLeftOutlined, UserOutlined, ProfileOutlined, SolutionOutlined, ForkOutlined, LogoutOutlined } from '@ant-design/icons';
+import { 
+  TeamOutlined, AlignLeftOutlined, UserOutlined, ProfileOutlined,
+  SolutionOutlined, ForkOutlined, LogoutOutlined, FileDoneOutlined
+} from '@ant-design/icons';
+
 import { Layout, Menu } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -49,6 +53,7 @@ import { light, dark } from '/redux/features/themeSlice';
         else if(router.pathname === '/shipments'){ value='3' }
         else if(router.pathname === '/tracking'){ value='4' }
         else if(router.pathname === '/users'){ value='5' }
+        else if(router.pathname === '/bills'){ value='6' }
         else { value='null' }
       return value
     }
@@ -106,6 +111,11 @@ import { light, dark } from '/redux/features/themeSlice';
             { permissions.f4=='1'&&
             <Menu.Item key="5" icon={<UserOutlined />}>
               <Link href="/users"><a style={{textDecoration:'none'}}>Users</a></Link>
+            </Menu.Item>
+            }
+            { permissions.f5=='1'&&
+            <Menu.Item key="6" icon={<FileDoneOutlined />}>
+              <Link href="/bills"><a style={{textDecoration:'none'}}>Bills</a></Link>
             </Menu.Item>
             }
           </Menu>
