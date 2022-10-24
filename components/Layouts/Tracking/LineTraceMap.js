@@ -101,7 +101,7 @@ const LineTraceMap = ({selectedRider}) => {
 		//   }, 1000)
 
 		const interval = setInterval(() => {
-			axios.get('http://localhost:8080/riders/getRoute',{ headers:{ id:`${selectedRider}` }}).then((x)=>{ getMatch(x.data.result.Item.routes) })
+			axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_RIDER_ROUTE_GET,{ headers:{ id:`${selectedRider}` }}).then((x)=>{ getMatch(x.data.result.Item.routes) })
 		}, 5000);
 
 		return () => clearInterval(interval);
