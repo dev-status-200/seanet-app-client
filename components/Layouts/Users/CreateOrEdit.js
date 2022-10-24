@@ -41,10 +41,11 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
             setContact(Profile.contact)
             setPassword(Profile.password)
             
-            setShipment(Profile.Permission.f2=="1"?true:false)
+            if(Profile.type!='Rider' && Profile.type!='PortUser'){
+              setShipment(Profile.Permission.f2=="1"?true:false)
             setAnalytics(Profile.Permission.f1=="1"?true:false)
             setLiveTrack(Profile.Permission.f3=="1"?true:false)
-            setUserManage(Profile.Permission.f4=="1"?true:false)
+            setUserManage(Profile.Permission.f4=="1"?true:false)}
       }
     }, [Profile, edit])
 
@@ -59,39 +60,25 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         setLoad(true);
         e.preventDefault();
         axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_CREATE_USER_POST,{
-            f_name:f_name,
-            l_name:l_name,
-            type:type,
-            address:address,
-            designation:designation,
-            username:username,
-            email:email,
-            contact:contact,
-            password:password,
-            cnic:cnic,
+            f_name:f_name, l_name:l_name,
+            type:type, address:address,
+            designation:designation, cnic:cnic,
+            username:username, email:email,
+            contact:contact, password:password,
             permissions:{
               shipment:shipment?1:0,
               analytics:analytics?1:0,
               liveTrack:liveTrack?1:0,
               userManage:userManage?1:0
             }
-        }).then((x)=>{
-            // let tempObj = x.data;
-            // let clientName = clientData.find(obj => {
-            //   return obj.id == x.data.ClientId
-            // }).name
-            // tempObj = {
-            //     id: x.data.id, referenceInvoice: x.data.referenceInvoice,
-            //     consignment: x.data.consignment, vessel: x.data.vessel,
-            //     gd:x.data.gd, active:x.data.active,
-            //     status: x.data.status, terminal: x.data.terminal,
-            //     container: x.data.container, ClientId: x.data.ClientId,
-            //     updatedAt: x.data.updatedAt, createdAt: x.data.createdAt,
-            //     Client:{name:clientName}
-            // }
+        }).then(async(x)=>{
             appendClient(x.data);
             removeValues();
-
+            if(x.data.type=="Rider"){
+              await axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_CREATE_RIDER_ROUTE_POST,{id:x.data.id}).then((x)=>{
+                console.log(x.data)
+              })
+            }
             setLoad(false);
             setVisible(false);
         })
@@ -119,23 +106,10 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
               userManage:userManage?1:0
             }
         }).then((x)=>{
-            // let tempObj = x.data;
-            // let clientName = clientData.find(obj => {
-            //   return obj.id == x.data.ClientId
-            // }).name
-            // tempObj = {
-            //     id: x.data.id, referenceInvoice: x.data.referenceInvoice,
-            //     consignment: x.data.consignment, vessel: x.data.vessel,
-            //     gd:x.data.gd, active:x.data.active,
-            //     status: x.data.status, terminal: x.data.terminal,
-            //     container: x.data.container, ClientId: x.data.ClientId,
-            //     updatedAt: x.data.updatedAt, createdAt: x.data.createdAt,
-            //     Client:{name:clientName}
-            // }
-            console.log(x.data)
-            if(x.data.resultOne[0]==1 && x.data.resultTwo[0]==1){
+            if(x.data[0]==1){
               //removeValues();
-              updateUser({
+              if(x.data.type!="Rider" && x.data.type!="PortUser"){
+                updateUser({
                 id:id,
                 f_name:f_name,
                 l_name:l_name,
@@ -169,8 +143,24 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
                   f19: "0",
                   f20: "0",
                   UserId:id
-                }
-              })
+                  }
+                })
+              }else{
+                updateUser({
+                  id:id,
+                  f_name:f_name,
+                  l_name:l_name,
+                  type:type,
+                  address:address,
+                  designation:designation,
+                  username:username,
+                  email:email,
+                  contact:contact,
+                  password:password,
+                  cnic:cnic,
+                  Permission:{ }
+                  })
+              }
               setEdit(false);
               setLoad(false);
               setVisible(false);
@@ -205,20 +195,22 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
       <Form.Control type="text" placeholder="Last name" required value={l_name} onChange={(e)=>setL_name(e.target.value)} />
     </Form.Group>
     </Col>
-    <Col md={6}>
+    {!edit &&<Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
         <Form.Label>Type</Form.Label>
         <Form.Select aria-label="Default select example" value={type} required onChange={(e)=>setType(e.target.value)}>
         <option>--- Select Type ---</option>
         <option value="Admin">Admin</option>
         <option value="Agent">Agent</option>
+        <option value="Rider">Rider</option>
+        <option value="PortUser">PortUser</option>
         </Form.Select>
       </Form.Group>
-    </Col>
+    </Col>}
     <Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
       <Form.Label>Designation</Form.Label>
-      <Form.Control type="text" placeholder="Designation" required value={designation} onChange={(e)=>setDesignation(e.target.value)} />
+      <Form.Control type="text" placeholder="Designation" value={designation} onChange={(e)=>setDesignation(e.target.value)} />
     </Form.Group>
     </Col>
     <Col md={6}>
@@ -230,13 +222,13 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
     <Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
       <Form.Label>Address</Form.Label>
-      <Form.Control type="text" placeholder="Address" required value={address} onChange={(e)=>setAddress(e.target.value)} />
+      <Form.Control type="text" placeholder="Address" value={address} onChange={(e)=>setAddress(e.target.value)} />
     </Form.Group>
     </Col>
     <Col md={6}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
       <Form.Label>CNIC</Form.Label>
-      <Form.Control type="text" placeholder="CNIC" required value={cnic} onChange={(e)=>setCnic(e.target.value)} />
+      <Form.Control type="text" placeholder="CNIC" value={cnic} onChange={(e)=>setCnic(e.target.value)} />
     </Form.Group>
     </Col>
     <Col md={6}>
@@ -262,6 +254,7 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
     <Col>
     <div className='f-30'>Access</div>
     <hr/>
+      {(type!="Rider" && type!="PortUser") &&
       <div className='py-3'>
       <Row className='slider' onClick={()=>setShipment(!shipment)}>
         <Col className='py-1'><span>Shipment</span></Col>
@@ -319,7 +312,7 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         />
         </Col>
       </Row>
-      </div>
+      </div>}
     </Col>
     </Row>
       <button className='custom-btn' disabled={load?true:false} type="submit">{!load?(edit?'Update':'Submit'):<Spinner animation="border" className='mx-3' size="sm" />}</button>

@@ -10,16 +10,16 @@ const Users = ({userData}) => {
     const [ edit, setEdit ] = useState(false);
     const [ visible, setVisible ] = useState(false);
     const theme = useSelector((state) => state.theme.value);
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState([]);
     const [Profile, setProfile] = useState({
         f_name:'-', l_name:'', type:'-', address:'-', designation:'-', username:'-',
         email:'-', cnic:'-', contact:'-', password:'-', Permission:{}
-    })
+    });
 
     useEffect(() => {
         console.log(userData)
         setUserList(userData)
-    }, [])
+    }, []);
 
     const appendClient = (x) => {
         console.log(x);
@@ -28,7 +28,6 @@ const Users = ({userData}) => {
         setUserList(tempState);
     }
     const updateUser = (x) => {
-        console.log(x)
         setProfile(x)
         let tempState = [...userList];
         let i = tempState.findIndex((y=>x.id==y.id));
@@ -43,7 +42,9 @@ return (
     <div className='box m-1'>
     <Row>
         <Col><h3 className='f my-2'>Users</h3></Col>
-        <Col style={{textAlign:'right'}}><button className='custom-btn' onClick={()=>setVisible(true)}>Create New</button></Col>
+        <Col style={{textAlign:'right'}}>
+            <button className='custom-btn' onClick={()=>setVisible(true)}>Create New</button>
+        </Col>
     </Row>
     <hr className='my-2' />
     <Row>
