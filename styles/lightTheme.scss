@@ -49,4 +49,31 @@
         transition-duration: 300ms;
         background-color: rgba(192, 192, 192, 0.322);
     }
+
+    .pending-icon{
+        color: silver;
+        font-size: 20px;
+        padding-bottom: 4px;
+    }
+    .pending-text{
+        color: silver;
+    }
+    
+    .pipeline-icon{
+        color: #c08d40;
+        font-size: 20px;
+        padding-bottom: 4px;
+    }
+    .pipeline-text{
+        color: #c08d40;
+    }
+    
+    .complete-icon{
+        color: green;
+        font-size: 20px;
+        padding-bottom: 4px;
+    }
+    .complete-text{
+        color: green;
+    }
 }

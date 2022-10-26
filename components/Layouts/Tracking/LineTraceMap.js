@@ -131,7 +131,6 @@ const LineTraceMap = ({selectedRider}) => {
 		}else{
 			parsedCoords=coordinates
 		}
-
 		let newCoords = '';
 		let radiuses = '';
 		parsedCoords.forEach((x, index)=>{
@@ -145,6 +144,7 @@ const LineTraceMap = ({selectedRider}) => {
 		});
 		const query = await fetch(`https://api.mapbox.com/matching/v5/mapbox/driving/${newCoords}?geometries=geojson&radiuses=${radiuses}&steps=true&access_token=${mapboxgl.accessToken}`,{method:'GET'});
 		const response = await query.json();
+		console.log(response)
 		if(response.code === 'Ok'){
 			let tempMapData = mapData;
 			tempMapData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates;

@@ -15,6 +15,7 @@
     "@turf/random": "^6.5.0",
     "@urbica/react-map-gl": "^1.16.2",
     "antd": "^4.22.6",
+    "aos": "^2.3.4",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "cookies": "^0.8.0",
@@ -26,15 +27,19 @@
     "moment": "^2.29.4",
     "next": "12.2.5",
     "react": "18.2.0",
+    "react-barcode": "^1.4.5",
     "react-bootstrap": "^2.5.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-map-gl": "^7.0.19",
     "react-number-format": "^5.0.0",
     "react-redux": "^8.0.2",
+    "react-to-print": "^2.14.7",
+    "react-use": "^17.4.0",
     "sass": "^1.54.4",
     "socket.io-client": "^4.5.2",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "eslint": "8.22.0",

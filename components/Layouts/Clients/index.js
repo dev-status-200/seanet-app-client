@@ -40,7 +40,7 @@ const Clients = ({clientData, sessionData}) => {
           <hr className='my-2' />
           </div>
           <div className='table-sm-1 mt-3'>
-              <Table className='tableFixHead'>
+            <Table className='tableFixHead'>
               <thead>
                 <tr>
                   <th>Sr.</th>
