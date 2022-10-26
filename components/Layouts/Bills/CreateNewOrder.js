@@ -120,11 +120,11 @@ const CreateNewOrder = (props) => {
               <ReactToPrint
                   className='purple-btn'
                   content={() =>inputRef}
-                  trigger={() => <button className="btn btn-dark btn-sm mt-1">Print to PDF!</button>}
+                  trigger={() => <button className="custom-btn mt-1">Print to PDF!</button>}
               />
               <span className='mx-2'>  </span> 
               <button 
-              className='purple-btn'
+              className='custom-btn mt-1'
                 onClick={()=>{
                   setBalance(""); setCode(""); setInvoice(""); setJob("");
                   setMachineNo(""); setName(""); setShow(false); 
