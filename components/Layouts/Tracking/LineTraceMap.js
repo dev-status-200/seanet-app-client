@@ -27,7 +27,7 @@ const LineTraceMap = ({selectedRider}) => {
 				type: 'Feature',
 				geometry: {
 					type: 'Point',
-					coordinates: [67.06514346480135, 24.873956517462556]
+					coordinates: [67.06514346480135, 24.875956517462556]
 				},
 				properties: {
 					title: 'Start Location'
@@ -96,12 +96,12 @@ const LineTraceMap = ({selectedRider}) => {
 			})
 		});
 
-		// setTimeout( function(){
-		// 	 axios.get('http://localhost:8080/riders/getRoute',{ headers:{ id:`${selectedRider}` }}).then((x)=>{ getMatch(x.data.result.Item.routes) })
-		//   }, 1000)
+		setTimeout(async function(){
+			await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_RIDER_ROUTE_GET,{ headers:{ id:`${selectedRider.id}` }}).then((x)=>{ getMatch(x.data.result.Item.routes,true) })
+		  }, 1000)
 
-		const interval = setInterval(() => {
-			axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_RIDER_ROUTE_GET,{ headers:{ id:`${selectedRider}` }}).then((x)=>{ getMatch(x.data.result.Item.routes) })
+		const interval = setInterval(async() => {
+			await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_RIDER_ROUTE_GET,{ headers:{ id:`${selectedRider.id}` }}).then((x)=>{ getMatch(x.data.result.Item.routes,false) })
 		}, 5000);
 
 		return () => clearInterval(interval);
@@ -116,7 +116,7 @@ const LineTraceMap = ({selectedRider}) => {
 	// 	});
 	// },[socket])
 
-	async function getMatch(coordinates){
+	async function getMatch(coordinates, pan){
 		let limit = 0;
 		let parsedCoords = [];
 		if(coordinates.length>100){
@@ -150,7 +150,8 @@ const LineTraceMap = ({selectedRider}) => {
 			tempMapData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates;
 			setMapData(tempMapData)
 			map.getSource('trace').setData(mapData);
-			map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]);
+
+			pan==true?map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]):null;
 			
 			let tempMarkerData = markerData;
 			tempMarkerData.features[0].geometry.coordinates = response.matchings[0].geometry.coordinates[0]

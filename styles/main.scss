@@ -238,8 +238,20 @@
   padding-bottom: 10px;
   padding-left: 10px;
   border-radius: 5px;
+  background-color: white;
+
+  margin-top: 10px;
+
+  box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.44);
+  -webkit-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.44);
+  -moz-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.44);
+}
+.rider-selected{
+  transition-duration: 300ms;
+  border: 2px solid rgba(6, 101, 116, 0.727);
+  background-color: rgba(6, 150, 172, 0.323);
 }
 .rider-row:hover{
   transition-duration: 300ms;
-  background-color: rgba(6, 150, 172, 0.502);
+  background-color: rgba(6, 150, 172, 0.401);
 }
