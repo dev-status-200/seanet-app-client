@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
 import { Row, Col, Table, Spinner } from 'react-bootstrap';
-import LineTraceMap from './LineTraceMap';
+import LocationTraceMap from './LocationTraceMap';
+import Link from 'next/link'
 
-const Tracking = ({sessionData, RidersData}) => {
+const PortUserComp = ({sessionData, PortUsers}) => {
 
   const theme = useSelector((state) => state.theme.value);
-  const [riderList, setRiderList] = useState([]);
-  const [selectedRider, setSelectedRider] = useState('');
+  const [portUser, setPortUser] = useState([]);
+  const [selectedUser, setSelectedUser] = useState('');
   const [load, setLoad] = useState(false);
 
     useEffect(() => {
@@ -18,46 +19,45 @@ const Tracking = ({sessionData, RidersData}) => {
     }, [sessionData]);
 
     useEffect(() => {
-      setRiderList(RidersData);
-      console.log(RidersData);
-    }, [])
+      setPortUser(PortUsers);
+    },[])
 
     useEffect(() => {
       setLoad(true);
       setTimeout(()=> setLoad(false), 3000);
       return () => { }
-    }, [selectedRider])
+    }, [selectedUser])
 
   return (
     <div className={theme=='light'?'lightTheme':'darkTheme'}>
       <div className='box m-3' style={{height:'80vh'}}>
         <Row>
         <Col md={12}>
-          <h3 className='f my-2'>Track Riders</h3>
+          <h3 className='f my-2'>Track Port Users</h3>
+          <Link href='/tracking/riders'><a>Switch To Riders</a></Link>
           <hr/>
         </Col>
         </Row>
         <Row>
         <Col md={12}>
-          
           <Row>
             <Col md={2}>
-              {riderList.map((rider, index)=>{
+              {portUser.map((user, index)=>{
                 return(
-                  <div key={index} className={`rider-row ${selectedRider.id==rider.id?'rider-selected':''}`}
+                  <div key={index} className={`rider-row ${selectedUser.id==user.id?'rider-selected':''}`}
                       onClick={()=>{
-                        load?null:setSelectedRider(rider)
+                        load?null:setSelectedUser(user)
                         }}>
                     <span><img src={'/assets/ridericon.png'} height={30} /></span>
-                    <span className='f-15 mx-2 fw-500'>{rider.f_name} {rider.l_name}</span>
-                    <div>Status: {rider.Job.job_active==0?<span style={{color:'green', backgroundColor:'#aac99c', padding:'0px 10px 4px 10px', borderRadius:10}}>Complete</span>:
+                    <span className='f-15 mx-2 fw-500'>{user.f_name} {user.l_name}</span>
+                    <div>Status: {user.Job.job_active==0?<span style={{color:'green', backgroundColor:'#aac99c', padding:'0px 10px 4px 10px', borderRadius:10}}>Complete</span>:
                     <span style={{color:'#7e6407', backgroundColor:'rgba(184, 146, 10, 0.53)', padding:'0px 15px 4px 15px', borderRadius:10}}>On Job</span>}</div>
                   </div>
                 )
               })}
             </Col>
             <Col md={9}>
-              {selectedRider!=''&& 
+              {selectedUser!=''&& 
               <>
               {load&&
               <div style={{width:'70vw', height:'62vh', border:'1px solid silver', borderRadius:5, backgroundColor:'rgba(117, 156, 163, 0.7)', position:'absolute', zIndex:1}}>
@@ -66,11 +66,10 @@ const Tracking = ({sessionData, RidersData}) => {
               </div>
               </div>
               }
-                
-                <LineTraceMap selectedRider={selectedRider} />
+                <LocationTraceMap selectedUser={selectedUser} />
               </>
               }
-              {selectedRider==''&& 
+              {selectedUser==''&& 
                 <div style={{width:'70vw', height:'62vh', border:'1px solid silver', borderRadius:5, backgroundColor:'rgba(117, 156, 163, 0.7)'}}>
                   <h1 style={{textAlign:'center', marginTop:'30%', fontWeight:'700', color:'rgba(6, 94, 116, 1)'}}>Please Select A Rider To Track</h1>
                 </div>
@@ -84,4 +83,4 @@ const Tracking = ({sessionData, RidersData}) => {
   )
 }
 
-export default Tracking
+export default PortUserComp

@@ -51,7 +51,7 @@ import { light, dark } from '/redux/features/themeSlice';
         if(router.pathname === '/dashboard'){ value='1' }
         else if(router.pathname === '/clients'){ value='2' }
         else if(router.pathname === '/shipments'){ value='3' }
-        else if(router.pathname === '/tracking'){ value='4' }
+        else if(router.pathname === '/tracking/riders' || router.pathname === '/tracking/portUsers'){ value='4' }
         else if(router.pathname === '/users'){ value='5' }
         else if(router.pathname === '/bills'){ value='6' }
         else { value='null' }
@@ -105,7 +105,7 @@ import { light, dark } from '/redux/features/themeSlice';
             }
             { permissions.f3=='1'&&
             <Menu.Item key="4" icon={<ForkOutlined />}>
-              <Link href="/tracking"><a style={{textDecoration:'none'}}>Tracking</a></Link>
+              <Link href="/tracking/riders"><a style={{textDecoration:'none'}}>Tracking</a></Link>
             </Menu.Item>
             }
             { permissions.f4=='1'&&

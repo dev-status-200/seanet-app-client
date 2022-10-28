@@ -74,7 +74,7 @@ const CreateOrEdit = ({setVisible, appendClient, edit, setEdit, Profile, updateU
         }).then(async(x)=>{
             appendClient(x.data);
             removeValues();
-            if(x.data.type=="Rider"){
+            if(x.data.type=="Rider"||x.data.type=="PortUser"){
               await axios.post(process.env.NEXT_PUBLIC_SEANET_SYS_CREATE_RIDER_ROUTE_POST,{id:x.data.id}).then((x)=>{
                 console.log(x.data)
               })

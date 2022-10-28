@@ -4,10 +4,10 @@ import axios from 'axios';
 import Cookies from 'cookies';
 import Tracking from '../components/Layouts/Tracking';
 
-const tracking = ({sessionData, RidersData}) => {
+const tracking = ({sessionData, RidersData, PortUsers}) => {
   return (
     <div>
-      <Tracking sessionData={sessionData} RidersData={RidersData} />
+      <Tracking sessionData={sessionData} RidersData={RidersData} PortUsers={PortUsers} />
     </div>
   )
 }
@@ -23,7 +23,11 @@ export async function getServerSideProps({req,res}){
     headers:{"x-access-token": `${cookies.get('token')}`}
   }).then((x)=>x.data);
 
+  const portUsersRequest = await axios.get(process.env.NEXT_PUBLIC_SEANET_SYS_GET_PORT_USER,{
+    headers:{"x-access-token": `${cookies.get('token')}`}
+  }).then((x)=>x.data);
+
   return{
-      props: { sessionData:sessionRequest, RidersData:ridersRequest }
+      props: { sessionData:sessionRequest, RidersData:ridersRequest, PortUsers:portUsersRequest }
   }
 }
