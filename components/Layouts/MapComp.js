@@ -4,7 +4,7 @@ import io from "socket.io-client";
 
 const socket = io.connect(process.env.NEXT_PUBLIC_SEANET_SYS_URL);
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYWJkdWxsYWh0ZWFtaGFpbCIsImEiOiJjbDdvbGtucjEwNm91M3ZueGZwaTEwcDg4In0.Be48QvgVjJ5-MNt3pzEnfw';
+mapboxgl.accessToken='pk.eyJ1IjoiYWJkdWxsYWh0ZWFtaGFpbCIsImEiOiJjbDdvbGtucjEwNm91M3ZueGZwaTEwcDg4In0.Be48QvgVjJ5-MNt3pzEnfw';
 
 function MapComp() {
   const mapContainer = useRef();

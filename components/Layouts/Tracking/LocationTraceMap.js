@@ -141,12 +141,13 @@ const LocationTraceMap = ({selectedUser}) => {
 			//setMapData(tempMapData)
 			//map.getSource('trace').setData(mapData);
 
-			//pan==true?map.panTo(response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]):null;
+			//map.panTo(coordinates[coordinates.length-1]);
 			console.log(coordinates[coordinates.length-1])
 			let tempMarkerData = markerData;
 			tempMarkerData.features[0].geometry.coordinates = coordinates[coordinates.length-1]
 			//tempMarkerData.features[1].geometry.coordinates = response.matchings[0].geometry.coordinates[(response.matchings[0].geometry.coordinates.length)-1]
             setMarkerData(tempMarkerData)
+			map.panTo(coordinates[coordinates.length-1]);
 			map.getSource('points').setData(tempMarkerData);
 		//}
 	}
