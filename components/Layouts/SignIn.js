@@ -28,6 +28,7 @@ const SignIn = () => {
         Cookies.set('username', token.username, { expires: 1 });
         Cookies.set('loginId', token.loginId, { expires: 1 });
         Cookies.set('type', token.type, { expires: 1 });
+        Cookies.set('signature', token.signature, { expires: 1 });
         Cookies.set('permissions', JSON.stringify(token.per), { expires: 1 });
         Router.push('/dashboard');
       }else if(x.data.message=='Invalid'){

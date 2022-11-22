@@ -12,6 +12,20 @@
         -webkit-box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
         -moz-box-shadow: 2px 2px 22px -12px rgba(0,0,0,0.75);
     }
+
+    .custom-btn-cancel{
+        background-color: #162a4600!important;
+        border: 1px solid rgb(172, 42, 6)!important;
+        border-radius: 25px!important;
+        padding:8px 30px 8px 30px!important;
+        font-weight: 500!important;
+    }
+    .custom-btn-cancel:hover{
+        transition-duration: 300ms;
+        background-color: rgb(172, 42, 6)!important;
+        color: white;
+    }
+
     .custom-btn{
         background-color: white;
         border: 1px solid rgb(6, 150, 172);
