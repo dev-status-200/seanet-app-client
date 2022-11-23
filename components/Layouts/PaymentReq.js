@@ -1,12 +1,27 @@
-import { CloseCircleOutlined, EditOutlined, StopOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { Row, Col, Table, Form, Spinner } from 'react-bootstrap';
+import { Row, Col, Table, Form, Spinner, Dropdown } from 'react-bootstrap';
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Button, Dropdown, Space } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
 import ReactToPrint from 'react-to-print';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { saveAs } from 'file-saver';
 import Cookies from 'js-cookie';
+import { Modal } from 'antd';
 import moment from 'moment';
+import Excel from 'exceljs';
 import axios from 'axios';
+
+const columns = [
+    { header: 'V No.', key: 'id' },
+    { header: 'Reason', key: 'reason' },
+    { header: 'Requested By', key: 'reqBy' },
+    { header: 'Paid To', key: 'paidTo' },
+    { header: 'Approved Date', key: 'approvedDate' },
+    { header: 'Amount', key: 'amount' },
+];
+  
+const workSheetName = 'Worksheet-1';
+const workBookName = 'MyWorkBook';
+const myInputId = 'myInput';
 
 const PaymentReq = ({sessionData, payRequestData, adminData}) => {
 
@@ -17,10 +32,9 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
     const [ selectedRequest, setSelectedRequest ] = useState({});
 
     const [ type, setType ] = useState('');
-    const [ voucher, setVoucher ] = useState(false);
     const [ visible, setVisible ] = useState(false);
     const theme = useSelector((state) => state.theme.value);
-    
+
     const [reqType, setReqType] = useState({loan:false, advance:false, expense:false});
     const [reason, setReason] = useState('');
     const [amount, setAmount] = useState('');
@@ -32,6 +46,53 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
 
     const [records, setRecords] = useState([]);
     const [adminList, setAdminList] = useState([]);
+
+    const workbook = new Excel.Workbook();
+
+    const saveExcel = async () => {
+        try {
+        const myInput = document.getElementById(myInputId);
+        const fileName = myInput.value || workBookName;
+        const worksheet = workbook.addWorksheet(workSheetName);
+        worksheet.columns = columns;
+        worksheet.getRow(1).font = { bold: true };
+        worksheet.columns.forEach(column => {
+            console.log(column)
+            if(column._header=='V No.'||column._header=='Amount'){
+                column.width = column.header.length + 4;
+            }else if(column._header=='Reason'||column._header=='Approved Date'){
+                column.width = column.header.length + 35;
+            }else if(column._header=='Requested By' ||column._header=='Paid To'){
+                column.width = column.header.length + 8;
+            }
+            column.alignment = { horizontal: 'left' };
+        });
+        payRequestData.forEach(singleData => {
+            if(singleData.company==company){
+                worksheet.addRow(singleData);
+            }
+        });
+        worksheet.eachRow({ includeEmpty: false }, row => {
+            const currentCell = row._cells;
+            currentCell.forEach(singleCell => {
+            const cellAddress = singleCell._address;
+            worksheet.getCell(cellAddress).border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+            });
+        });
+        const buf = await workbook.xlsx.writeBuffer();
+        saveAs(new Blob([buf]), `${fileName}.xlsx`);
+        } catch (error) {
+        console.error('<<<ERRROR>>>', error);
+        console.error('Something Went Wrong', error.message);
+        } finally {
+        workbook.removeWorksheet(workSheetName);
+        }
+    };
 
     useEffect(() => {
         if(sessionData.isLoggedIn==false) Router.push('/signin');
@@ -109,9 +170,21 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
   return (
     <div className={theme=='light'?'lightTheme':'darkTheme'}>
       <Row className='box m-3'>
-        <Col><h3 className='f my-2'>{type!='Admin'?'Your Requests':'Payment Requests'}</h3></Col>
+        <Col><h3 className='f my-2'>{type!='Admin'?'Your Requests':`Payment Requests ${company}`}</h3></Col>
         <Col style={{textAlign:'right'}}>
         {type!='Admin' &&<button className='custom-btn' onClick={()=>setVisible(true)}>Make Request</button>}
+        <input id={myInputId} defaultValue={company+' Voucher List'} value={company+' Voucher List'} style={{display:'none'}} />
+        <Dropdown>
+            <Dropdown.Toggle style={{backgroundColor:'rgb(6, 150, 172)', border:'none', borderRadius:25}} id="dropdown-basic">
+            </Dropdown.Toggle>
+            <Dropdown.Menu className='py-3'>
+                <Form.Check className='mx-3' type="radio" label='Cargo Linkers' checked={company=='Cargo Linkers'} onChange={()=>setCompany('Cargo Linkers')} />
+                <Form.Check className='mx-3' type="radio" label='Sea Net' checked={company=='Sea Net'} onChange={()=>setCompany('Sea Net')} />
+                <Form.Check className='mx-3' type="radio" label='Air Cargo Services' checked={company=='Air Cargo Services'} onChange={()=>setCompany('Air Cargo Services')} />
+                <hr/>
+                <button className='custom-btn mx-5 mt-2' onClick={saveExcel}>Export</button>
+            </Dropdown.Menu>
+        </Dropdown>
         </Col>
         <div className='px-2'>
         <hr className='my-2' />
@@ -133,7 +206,9 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
             </thead>
             <tbody>
             {
-            records.map((x, index) => {
+            records.filter((x)=>{
+                return x.company==company
+            }).map((x, index) => {
             return (
             <tr key={index} className='f'>
             <td>{index + 1}</td>
@@ -324,11 +399,13 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 </Row>
                 <Row style={{marginTop:10}}>
                     <Col className='text-start'>
-                        <img src={Cookies.get('signature')} height={90} />
+                        {Cookies.get('signature')==''&&<div style={{height:90}}></div>}
+                        {Cookies.get('signature')!=''&&<img src={Cookies.get('signature')} height={90} />}
                         <div className=''>Prepared By</div>
                     </Col>
                     <Col className='text-center'>
-                        <img src={getAdminPic(approvedBy)} height={90} />
+                        {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
+                        {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
                         <div>Approved By</div>
                     </Col>
                     <Col className='text-end'>
@@ -371,11 +448,13 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 </Row>
                 <Row style={{marginTop:10}}>
                     <Col className='text-start'>
-                        <img src={Cookies.get('signature')} height={90} />
+                        {Cookies.get('signature')==''&&<div style={{height:90}}></div>}
+                        {Cookies.get('signature')!=''&&<img src={Cookies.get('signature')} height={90} />}
                         <div className=''>Prepared By</div>
                     </Col>
                     <Col className='text-center'>
-                        <img src={getAdminPic(approvedBy)} height={90} />
+                        {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
+                        {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
                         <div>Approved By</div>
                     </Col>
                     <Col className='text-end'>
