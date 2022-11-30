@@ -136,7 +136,7 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
     const handleEdit = async(e) => {
         e.preventDefault();
          setLoad(true)
-         let date = moment().format('MMMM Do YYYY, h:mm:ss a');
+         let date = moment().format('MMM Do YY, h:mm a');
          let loginId = Cookies.get('loginId')
          let username = Cookies.get('username')
          await axios.post(process.env.NEXT_PUBLIC_EDIT_PAYMENT_REQUEST_POST,{
@@ -161,20 +161,21 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
     }
 
     const handleApprove = async(e) => {
-        console.log(selectedRequest)
         setLoad(true)
         e.preventDefault();
-        let date = moment().format('MMMM Do YYYY, h:mm:ss a');
+        let date = moment().format('MMM Do YY, h:mm a');
         let loginId = Cookies.get('loginId')
         let username = Cookies.get('username')
+        console.log(approvedBy)
         await axios.post(process.env.NEXT_PUBLIC_APPROVE_PAYMENT_REQUEST_POST,{
-            approverId:loginId, approvedDate:date, id:selectedRequest.id, 
+            approverId:approvedBy, approvedDate:date, id:selectedRequest.id, 
             name:selectedRequest.User.f_name+" "+selectedRequest.User.l_name,
             amount:selectedRequest.amount, type:selectedRequest.type,
             email:selectedRequest.User.email, username:username
         }).then((x)=>{
             let tempState = [...records];
             let i = tempState.findIndex((y=>selectedRequest.id==y.id));
+            tempState[i].approverId=approvedBy
             tempState[i].approvedDate=date
             tempState[i].approve=1
 
@@ -230,7 +231,7 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 <th>Amount</th>
                 <th>Type</th>
                 <th>Status</th>
-                <th>Req By</th>
+                <th>Request</th>
                 <th>Company</th>
                 {type=='Admin' &&<th>Account</th>}
                 <th>Edited By</th>
@@ -247,7 +248,7 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
             <tr key={index} className='f'>
             <td>{index + 1}</td>
             <td style={{color:'grey', fontSize:13, maxWidth:140}}>{x.reason}</td>
-            <td>Rs. {x.amount}</td>
+            <td>Rs.{x.amount}</td>
             <td>{x.type}</td>
             <td style={{minWidth:120}}>
                 {
@@ -258,9 +259,10 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 </span>
                 }
             </td>
-            <td>{x.paidTo}</td>
+            <td style={{color:'grey', fontSize:14, minWidth:150}}>By: {x.reqBy}<br/>To: {x.paidTo}</td>
             <td><b style={{color:'grey'}}>{x.company}</b></td>
-            {type=='Admin' && <td>
+            {type=='Admin' && 
+            <td>
                 <div>{x.User.f_name} {x.User.l_name}</div>
                 <div style={{color:'grey',fontSize:12}}>{"("}{x.User.designation}{")"}</div>
             </td>
@@ -274,15 +276,19 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 }}><CheckCircleOutlined style={{fontSize:20, marginTop:10}} className='modify-edit' /></span>
                 </td>
             }
-            <td style={{}}>
-                <span onClick={()=>{
+            <td>
+                {x.approve!=1 &&<span onClick={()=>{
                     setSelectedRequest(x);
                     console.log(x);
                     setAmount(x.amount)
                     setRupees(x.rupees)
                     setReqType({loan:x.type=="Loan"?true:false, advance:x.type=="Advance"?true:false, expense:x.type=="Expense"?true:false})
                     setEdit(true);
-                }}><EditOutlined style={{fontSize:20, marginTop:10}} className='modify-edit' /></span>
+                }}>
+                    <EditOutlined style={{fontSize:20, marginTop:10}} className='modify-edit' />
+                </span>
+                }
+                {x.approve==1 && <EditOutlined style={{fontSize:20, marginTop:10, color:'silver'}} />}
                 </td>
             </tr>
             )
@@ -420,7 +426,7 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
             </Col>
             <Col>
             <h6 className='f'>Approved By</h6>
-            <Form.Select aria-label="" value={approvedBy} onChange={(e)=>setApprovedBy(e.target.value)}>
+            <Form.Select aria-label="" value={selectedRequest.approve==1?selectedRequest.approverId:approvedBy} disabled={selectedRequest.approve==1} onChange={(e)=>setApprovedBy(e.target.value)}>
                 {
                     adminList.map((x, index)=>{
                         return(<option key={index} value={x.id}>{x.f_name} {x.l_name}</option>)
@@ -437,7 +443,11 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
             content={() => inputRef }
             trigger={() => <button className="custom-btn mt-4">Print to PDF!</button>}
         />
-        <button className='custom-btn mt-4 mx-4' onClick={handleApprove} >{!load?'Approve':<Spinner animation="border" className='mx-3' size="sm" />}</button>
+        {selectedRequest.approve!=1 &&
+        <button className='custom-btn mt-4 mx-4' onClick={handleApprove} >
+            {!load?'Approve':<Spinner animation="border" className='mx-3' size="sm" />}
+        </button>
+        }
         </div>
     </Modal>
     <div style={{display:'none'}}>
@@ -481,8 +491,18 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                     <div className=''>Prepared By</div>
                 </Col>
                 <Col className='text-center'>
-                    {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
-                    {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
+                    {selectedRequest.approve==1 && 
+                        <>
+                            {getAdminPic(selectedRequest.approverId)==''&&<div style={{height:90}}></div>}
+                            {getAdminPic(selectedRequest.approverId)!=''&&<img src={getAdminPic(selectedRequest.approverId)} height={90} />}
+                        </>
+                    }
+                    {selectedRequest.approve!=1 && 
+                        <>
+                            {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
+                            {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
+                        </>
+                    }
                     <div>Approved By</div>
                 </Col>
                 <Col className='text-end'>
@@ -530,8 +550,18 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                     <div className=''>Prepared By</div>
                 </Col>
                 <Col className='text-center'>
-                    {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
-                    {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
+                    {selectedRequest.approve==1 && 
+                        <>
+                            {getAdminPic(selectedRequest.approverId)==''&&<div style={{height:90}}></div>}
+                            {getAdminPic(selectedRequest.approverId)!=''&&<img src={getAdminPic(selectedRequest.approverId)} height={90} />}
+                        </>
+                    }
+                    {selectedRequest.approve!=1 && 
+                        <>
+                            {getAdminPic(approvedBy)==''&&<div style={{height:90}}></div>}
+                            {getAdminPic(approvedBy)!=''&&<img src={getAdminPic(approvedBy)} height={90} />}
+                        </>
+                    }
                     <div>Approved By</div>
                 </Col>
                 <Col className='text-end'>
