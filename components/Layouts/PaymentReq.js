@@ -450,6 +450,7 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
         }
         </div>
     </Modal>
+    
     <div style={{display:'none'}}>
         <div ref={(response) => (inputRef = response)}>
         <div className='voucher'>

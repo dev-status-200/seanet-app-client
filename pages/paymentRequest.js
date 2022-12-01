@@ -12,7 +12,6 @@ const paymentRequest = ({sessionData, payRequestData, adminData}) => {
 }
 
 export default paymentRequest
-//NEXT_PUBLIC_GET_USER_PAYMENT_REQUEST_GET
 
 export async function getServerSideProps({req,res}){
     const cookies = new Cookies(req, res)

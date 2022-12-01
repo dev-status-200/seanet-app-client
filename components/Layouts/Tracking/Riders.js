@@ -33,8 +33,8 @@ const Riders = ({sessionData, RidersData}) => {
       <div className='box m-3' style={{height:'80vh'}}>
         <Row>
         <Col md={12}>
-          <h3 className='f my-2'>Track Riders</h3>
-          <Link href='/tracking/portUsers'><a>Switch To Port Users</a></Link>
+          <h3 className='f my-2'>Route Tracking</h3>
+          <Link href='/tracking/portUsers'><a>Switch To Live Tracking</a></Link>
           <hr/>
         </Col>
         </Row>

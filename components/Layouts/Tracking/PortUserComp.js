@@ -33,8 +33,8 @@ const PortUserComp = ({sessionData, PortUsers}) => {
       <div className='box m-3' style={{height:'80vh'}}>
         <Row>
         <Col md={12}>
-          <h3 className='f my-2'>Track Port Users</h3>
-          <Link href='/tracking/riders'><a>Switch To Riders</a></Link>
+          <h3 className='f my-2'>Live Tracking</h3>
+          <Link href='/tracking/riders'><a>Switch To Route Tracking</a></Link>
           <hr/>
         </Col>
         </Row>
@@ -48,7 +48,7 @@ const PortUserComp = ({sessionData, PortUsers}) => {
                       onClick={()=>{
                         load?null:setSelectedUser(user)
                         }}>
-                    <span><img src={'/assets/ridericon.png'} height={30} /></span>
+                    <span><img src={'/assets/locationmarker.png'} height={30} /></span>
                     <span className='f-15 mx-2 fw-500'>{user.f_name} {user.l_name}</span>
                     <div>Status: {user.Job.job_active==0?<span style={{color:'green', backgroundColor:'#aac99c', padding:'0px 10px 4px 10px', borderRadius:10}}>Complete</span>:
                     <span style={{color:'#7e6407', backgroundColor:'rgba(184, 146, 10, 0.53)', padding:'0px 15px 4px 15px', borderRadius:10}}>On Job</span>}</div>
