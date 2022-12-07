@@ -168,10 +168,14 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
         let username = Cookies.get('username')
         console.log(approvedBy)
         await axios.post(process.env.NEXT_PUBLIC_APPROVE_PAYMENT_REQUEST_POST,{
-            approverId:approvedBy, approvedDate:date, id:selectedRequest.id, 
+            approverId:approvedBy,
+            approvedDate:date,
+            id:selectedRequest.id, 
             name:selectedRequest.User.f_name+" "+selectedRequest.User.l_name,
-            amount:selectedRequest.amount, type:selectedRequest.type,
-            email:selectedRequest.User.email, username:username
+            amount:selectedRequest.amount,
+            type:selectedRequest.type,
+            email:selectedRequest.User.email,
+            username:username
         }).then((x)=>{
             let tempState = [...records];
             let i = tempState.findIndex((y=>selectedRequest.id==y.id));
@@ -254,8 +258,12 @@ const PaymentReq = ({sessionData, payRequestData, adminData}) => {
                 {
                 x.approve=='0'?
                 <span style={{color:'#ed8545', fontWeight:'500'}}>Pending</span>:
+                x.approve=='1'?
                 <span style={{color:'#7e9648', fontWeight:'500'}}>
                     Approved<br/><span style={{color:'grey', fontSize:12, fontWeight:400}}>{x.approvedDate}</span>
+                </span>:
+                <span style={{color:'red', fontWeight:'500'}}>
+                    Declined<br/><span style={{color:'grey', fontSize:12, fontWeight:400}}></span>
                 </span>
                 }
             </td>
